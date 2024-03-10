@@ -1,9 +1,7 @@
 import { PrimeNGConfig } from 'primeng/api';
 
 export class PrimengConfig {
-	constructor(private primeNGConfig: PrimeNGConfig) {}
-
-	init() {
+	constructor(private primeNGConfig: PrimeNGConfig) {
 		this.primeNGConfig.ripple = true;
 		this.primeNGConfig.zIndex = {
 			modal: 1100, // dialog, sidebar

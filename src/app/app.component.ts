@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { PrimengConfig } from './config/primeng.config';
 
 @Component({
 	selector: 'app-root',
@@ -9,12 +8,6 @@ import { PrimengConfig } from './config/primeng.config';
 	templateUrl: './app.component.html',
 	styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 	title = 'Front-end';
-
-	constructor(private primeNGConfiguration: PrimengConfig) {}
-
-	ngOnInit(): void {
-		this.primeNGConfiguration.init();
-	}
 }
