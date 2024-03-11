@@ -40,3 +40,8 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/.husky/pre-commit
+/.prettierignore
+/.husky/.gitignore
+/.eslintcache
+/.prettierrc
