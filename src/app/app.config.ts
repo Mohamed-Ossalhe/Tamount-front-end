@@ -12,10 +12,17 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ALL_PRIMENG_UI_MODULES } from '@config/primeng-ui.imports';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { PrimengConfig } from '@config/primeng.config';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
-		importProvidersFrom(...ALL_PRIMENG_UI_MODULES, PrimengConfig),
+		importProvidersFrom(
+			BrowserModule,
+			BrowserAnimationsModule,
+			...ALL_PRIMENG_UI_MODULES,
+			PrimengConfig
+		),
 		provideRouter(routes),
 		provideStore(),
 		provideEffects(),
