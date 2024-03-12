@@ -1,1 +1,31 @@
-<p>navbar works!</p>
+<div class="navbar-component">
+    <div class="navbar-component-container py-4">
+        <div class="navbar-component-wrapper flex items-center justify-between gap-5">
+            <div class="navbar-logo max-sm:flex max-sm:items-center max-sm:justify-center flex-1 max-sm:order-1">
+                <p-image [src]="navbarLogo" width="170" />
+            </div>
+            <div class="navbar-navigations flex items-center justify-center gap-5 max-sm:order-0">
+                <!-- Show on mobile only -->
+                <div class="navbar_navigation-mobile flex sm:hidden">
+                    <tamount-icon (click)="menu.toggle($event)" icon="bars" size="text-2xl" class="cursor-pointer" />
+                    <p-menu #menu [model]="navigationItems" [popup]="true"></p-menu>
+                </div>
+                <!-- Hide on mobile -->
+                <ul class="navbar-navigation-menu hidden sm:flex items-center gap-4">
+                    @for (item of navigationItems; track $index) {
+                        <li class="navbar-navigation-menu-item">
+                            <a [routerLink]="item.routerLink" class="flex items-center gap-2 py-1 px-3 medium capitalize">
+                                <tamount-icon [icon]="item.icon" size="text-xl" />
+                                {{ item.label }}
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="navbar-navigation-menu-item max-sm:order-2">
+                <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large" (click)="menu.toggle($event)"></p-avatar>
+                <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
+            </div>
+        </div>
+    </div>
+</div>
