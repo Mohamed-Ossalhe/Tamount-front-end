@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import {
+	AutoCompleteCompleteEvent,
+	AutoCompleteModule,
+} from 'primeng/autocomplete';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import { CardModule } from 'primeng/card';
@@ -11,11 +14,6 @@ import {
 	Validators,
 } from '@angular/forms';
 import { formatDate } from '@angular/common';
-
-interface AutoCompleteCompleteEvent {
-	originalEvent: Event;
-	query: string;
-}
 
 type Country = {
 	name: string;
