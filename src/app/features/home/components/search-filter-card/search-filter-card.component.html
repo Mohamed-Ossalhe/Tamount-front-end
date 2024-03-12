@@ -1,0 +1,26 @@
+<p-card>
+    <form class="grid grid-cols-1 gap-4" (submit)="submitSearchForm()" [formGroup]="searchFormGroup">
+        <div class="departure-field flex flex-col gap-2">
+            <label for="departure">Departure</label>
+            <p-autoComplete id="departure" formControlName="departure"  placeholder="Leaving from" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" field="name"></p-autoComplete>
+        </div>
+        <div class="destination-field flex flex-col gap-2">
+            <label for="destination">Destination</label>
+            <p-autoComplete id="destination" formControlName="destination" placeholder="Going to" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" field="name"></p-autoComplete>
+        </div>
+        <div class="field-group grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div class="date-field flex flex-col gap-2 col-span-2">
+                <label for="ride-date">Date</label>
+                <p-calendar [iconDisplay]="'input'" placeholder="placeholder" formControlName="date" [showIcon]="true" id="ride-date" inputId="ride-date" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" />
+            </div>
+            <div class="passenger-count-field flex flex-col gap-2 col-span-1">
+                <label for="passengers">Passengers</label>
+                <p-inputNumber [min]="1" [max]="5" inputStyleClass="w-full h-10" formControlName="passengersCount" styleClass="border rounded" id="passengers" [showButtons]="true" buttonLayout="horizontal" inputId="passengers" decrementButtonClass="p-button-secondary"
+                               incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus"></p-inputNumber>
+            </div>
+        </div>
+        <div class="submit-field">
+            <p-button label="Search" type="submit" styleClass="py-2 px-3 w-full bg-tamount-primary text-white" />
+        </div>
+    </form>
+</p-card>
