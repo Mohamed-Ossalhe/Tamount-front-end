@@ -1,5 +1,5 @@
 export type NavigationItem = {
 	label: string;
-	icon: string;
+	icon?: string;
 	routerLink: string;
 };

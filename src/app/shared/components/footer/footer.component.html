@@ -1,1 +1,38 @@
-<p>footer works!</p>
+<div class="footer-component bg-slate-100">
+    <div class="footer-component-container">
+        <div class="footer-component-wrapper">
+            <div class="footer-links grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 py-6">
+                @for (item of footerLinks; track $index) {
+                    <div class="footer-links-menu">
+                        <div class="footer-links-heading mb-10">
+                            <h2 class="text-xl font-bold">{{ item.heading }}</h2>
+                        </div>
+                        <ul class="footer-links-items flex flex-col items-left gap-5">
+                            @for (link of item.links; track $index) {
+                                <li class="footer-links-item font-medium">
+                                    <a [routerLink]="link.routerLink">{{link.label}}</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                }
+            </div>
+            <div class="footer-copyright bg-white py-5">
+                <div class="footer-copyright-wrapper flex items-center justify-between">
+                    <ul class="footer-copyright-links flex items-center gap-5 text-slate-500 font-medium">
+                        <li>
+                            <a routerLink="/">Terms and Conditions</a>
+                        </li>
+                        <li>
+                            <a routerLink="/">Cookies settings</a>
+                        </li>
+                    </ul>
+                    <div class="footer-copyright-content flex items-center gap-3 font-medium text-slate-500">
+                        <p-image [src]="footerSmallLogo" width="70"/>
+                        <p class="capitalize">tamount, {{date?.getFullYear()}} &copy;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
