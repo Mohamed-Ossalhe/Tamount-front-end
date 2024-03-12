@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit {
 
 		this.navigationItems = [
 			{
-				routerLink: '/',
+				routerLink: '/search',
 				label: 'Search',
 				icon: 'search',
 			},

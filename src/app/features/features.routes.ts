@@ -8,4 +8,11 @@ export const featuresRoutes: Routes = [
 				(c) => c.HomeComponent
 			),
 	},
+	{
+		path: 'search',
+		loadComponent: () =>
+			import('@features/home/pages/search-page/search-page.component').then(
+				(c) => c.SearchPageComponent
+			),
+	},
 ];
