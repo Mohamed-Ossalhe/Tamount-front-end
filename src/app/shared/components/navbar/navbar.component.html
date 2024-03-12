@@ -1,5 +1,5 @@
 <div class="navbar-component">
-    <div class="navbar-component-container py-4">
+    <div class="navbar-component-container container w-full sm:max-w-7xl py-4 px-4 sm:px-8 mx-auto">
         <div class="navbar-component-wrapper flex items-center justify-between gap-5">
             <div class="navbar-logo max-sm:flex max-sm:items-center max-sm:justify-center flex-1 max-sm:order-1">
                 <p-image [src]="navbarLogo" width="170" />
@@ -7,8 +7,8 @@
             <div class="navbar-navigations flex items-center justify-center gap-5 max-sm:order-0">
                 <!-- Show on mobile only -->
                 <div class="navbar_navigation-mobile flex sm:hidden">
-                    <tamount-icon (click)="menu.toggle($event)" icon="bars" size="text-2xl" class="cursor-pointer" />
-                    <p-menu #menu [model]="navigationItems" [popup]="true"></p-menu>
+                    <tamount-icon (click)="navMenu.toggle($event)" icon="bars" size="text-2xl" class="cursor-pointer" />
+                    <p-menu #navMenu [model]="navigationItems" [popup]="true"></p-menu>
                 </div>
                 <!-- Hide on mobile -->
                 <ul class="navbar-navigation-menu hidden sm:flex items-center gap-4">
@@ -23,8 +23,8 @@
                 </ul>
             </div>
             <div class="navbar-navigation-menu-item max-sm:order-2">
-                <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large" (click)="menu.toggle($event)"></p-avatar>
-                <p-menu #menu [model]="menuItems" [popup]="true"></p-menu>
+                <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large" (click)="profileMenu.toggle($event)"></p-avatar>
+                <p-menu #profileMenu [model]="menuItems" [popup]="true"></p-menu>
             </div>
         </div>
     </div>
