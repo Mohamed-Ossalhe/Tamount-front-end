@@ -20,6 +20,13 @@ export const authRoutes: Routes = [
 						'@features/auth/components/login-methods/login-methods.component'
 					).then((c) => c.LoginMethodsComponent),
 			},
+			{
+				path: 'email',
+				loadComponent: () =>
+					import('@features/auth/components/login-form/login-form.component').then(
+						(c) => c.LoginFormComponent
+					),
+			},
 		],
 	},
 	{

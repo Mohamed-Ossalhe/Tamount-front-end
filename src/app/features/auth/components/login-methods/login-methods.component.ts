@@ -20,7 +20,7 @@ export class LoginMethodsComponent {
 		},
 		{
 			label: 'Continue with email',
-			url: '/email',
+			url: 'email',
 			icon: 'pi pi-envelope',
 		},
 	];
