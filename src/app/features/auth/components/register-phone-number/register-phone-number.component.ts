@@ -8,12 +8,19 @@ import {
 	ValidationErrors,
 	Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { InputTextModule } from 'primeng/inputtext';
 
 @Component({
 	selector: 'tamount-register-phone-number',
 	standalone: true,
-	imports: [ButtonModule, InputNumberModule, ReactiveFormsModule],
+	imports: [
+		ButtonModule,
+		InputNumberModule,
+		ReactiveFormsModule,
+		InputTextModule,
+		RouterLink,
+	],
 	templateUrl: './register-phone-number.component.html',
 	styleUrl: './register-phone-number.component.scss',
 })
@@ -52,5 +59,11 @@ export class RegisterPhoneNumberComponent implements OnInit {
 				console.log(this.errors);
 			}
 		}
+	}
+
+	registerWithoutVerifyNumber() {
+		// this.loading = true
+		this.router.navigateByUrl('/');
+		// TODO: register user without verifying his number and give the option to do it later
 	}
 }
