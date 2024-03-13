@@ -34,12 +34,12 @@ export class NavbarComponent implements OnInit {
 			{
 				label: 'Log in',
 				icon: 'pi pi-profile',
-				routerLink: '/',
+				routerLink: 'authentication/login',
 			},
 			{
 				label: 'Sign up',
 				icon: 'pi pi-profile',
-				routerLink: '/',
+				routerLink: 'authentication/register',
 			},
 		];
 

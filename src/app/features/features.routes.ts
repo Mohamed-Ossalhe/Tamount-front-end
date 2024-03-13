@@ -15,4 +15,9 @@ export const featuresRoutes: Routes = [
 				(c) => c.SearchPageComponent
 			),
 	},
+	{
+		path: 'authentication',
+		loadChildren: () =>
+			import('@features/auth/auth.routes').then((r) => r.authRoutes),
+	},
 ];

@@ -1,0 +1,11 @@
+<div class="login-methods">
+    <div class="login-methods-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
+        <div class="login-methods-wrapper flex flex-col items-center justify-center w-full space-y-5">
+            @for (method of loginMethods; track $index) {
+                <a [routerLink]="method.url">
+                    <p-button [label]="method.label" [icon]="method.icon" [loading]="false" [text]="true" severity="secondary" styleClass="w-80 py-2 px-5"></p-button>
+                </a>
+            }
+        </div>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+<div class="login-page">
+    <div class="login-page-container container w-full sm:max-w-7xl px-4 sm:px-8 py-10 mx-auto">
+        <div class="login-page-wrapper flex flex-col items-center gap-10">
+            <div class="login-page-heading flex items-center justify-center mt-5">
+                <h1 class="text-3xl font-bold">How do you want to log in?</h1>
+            </div>
+            <div class="login-page-content">
+                <router-outlet />
+            </div>
+            <div class="login-page-content-footer flex items-center justify-center font-medium">
+                <p>Not a member yet? <a routerLink="/authentication/register" class="text-tamount-primary">Sign up</a></p>
+            </div>
+        </div>
+    </div>
+</div>

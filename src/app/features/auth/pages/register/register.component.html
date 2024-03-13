@@ -1,0 +1,24 @@
+<div class="register-page">
+    <div class="register-page-container container w-full sm:max-w-7xl px-4 sm:px-8 py-10 mx-auto">
+        <div class="register-page-wrapper flex flex-col items-center gap-10">
+            <div class="register-page-heading flex items-center justify-center mt-5">
+                <h1 class="text-3xl font-bold">How do you want to sign up?</h1>
+            </div>
+            <div class="register-page-content">
+                <router-outlet />
+            </div>
+            <div class="register-page-content-footer flex items-center justify-center font-medium">
+                <p>Already a member? <a routerLink="/authentication/login" class="text-tamount-primary">Log in</a></p>
+            </div>
+            <div class="disclaimer flex items-center justify-center text-xs font-medium sm:w-2/3">
+                <p>By signing up, you accept our <a routerLink="" class="text-tamount-primary">T&Cs</a> and <a routerLink="" class="text-tamount-primary">Privacy Policy</a>.
+                    <p-divider styleClass="my-2"></p-divider>
+                    This information is collected by Tamount for the purposes of creating your account, managing your booking, using and improving our services and ensuring the security of our platform.
+                    <p-divider styleClass="my-2"></p-divider>
+                    You have rights on your personal data and can exercise them by contacting Tamount through our <a routerLink="" class="text-tamount-primary">Contact form</a>. You can learn more about your rights and how we handle your personal data in our <a routerLink="" class="text-tamount-primary">Privacy Policy</a>.
+                    <p-divider styleClass="my-2"></p-divider>
+                    You can also change your Cookie Settings at any time.</p>
+            </div>
+        </div>
+    </div>
+</div>
