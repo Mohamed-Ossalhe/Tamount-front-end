@@ -1,6 +1,9 @@
 <div class="register-methods">
     <div class="register-methods-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
         <div class="register-methods-wrapper flex flex-col items-center justify-center w-full space-y-5">
+            <div class="register-page-heading flex items-center justify-center mt-5">
+                <h1 class="text-3xl font-bold">How do you want to sign up?</h1>
+            </div>
             @for (method of registerMethods; track $index) {
                 <a [routerLink]="method.url">
                     <p-button [label]="method.label" [icon]="method.icon" [loading]="false" [text]="true" severity="secondary" styleClass="w-80 py-2 px-5"></p-button>

@@ -11,6 +11,7 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
 	selector: 'tamount-login-form',
@@ -22,6 +23,7 @@ import { ButtonModule } from 'primeng/button';
 		PasswordModule,
 		ReactiveFormsModule,
 		ButtonModule,
+		DividerModule,
 	],
 	templateUrl: './login-form.component.html',
 	styleUrl: './login-form.component.scss',

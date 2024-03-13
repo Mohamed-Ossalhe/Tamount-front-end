@@ -19,7 +19,7 @@ export class RegisterMethodsComponent {
 		},
 		{
 			label: 'Continue with email',
-			url: '/email',
+			url: 'info',
 			icon: 'pi pi-envelope',
 		},
 	];
