@@ -1,5 +1,22 @@
 import { Routes } from '@angular/router';
 
+const clientRoutes: Routes = [
+	{
+		path: 'menu',
+		loadComponent: () =>
+			import('@features/client/pages/user-info/user-info.component').then(
+				(c) => c.UserInfoComponent
+			),
+	},
+	{
+		path: 'account',
+		loadComponent: () =>
+			import(
+				'@features/client/pages/account-settings/account-settings.component'
+			).then((c) => c.AccountSettingsComponent),
+	},
+];
+
 export const featuresRoutes: Routes = [
 	{
 		path: '',
@@ -19,5 +36,13 @@ export const featuresRoutes: Routes = [
 		path: 'authentication',
 		loadChildren: () =>
 			import('@features/auth/auth.routes').then((r) => r.authRoutes),
+	},
+	{
+		path: 'profile',
+		loadComponent: () =>
+			import('@features/client/pages/profile/profile.component').then(
+				(c) => c.ProfileComponent
+			),
+		children: clientRoutes,
 	},
 ];
