@@ -38,6 +38,14 @@ export const featuresRoutes: Routes = [
 			import('@features/auth/auth.routes').then((r) => r.authRoutes),
 	},
 	{
+		path: 'publish-ride',
+		loadComponent: () =>
+			import('@features/home/pages/publish-ride/publish-ride.component').then(
+				(c) => c.PublishRideComponent
+			),
+	},
+	// TODO: this should be in another file ex: client routes separated ⬇️
+	{
 		path: 'profile',
 		loadComponent: () =>
 			import('@features/client/pages/profile/profile.component').then(

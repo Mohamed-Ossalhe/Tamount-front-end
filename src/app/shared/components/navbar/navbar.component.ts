@@ -50,7 +50,7 @@ export class NavbarComponent implements OnInit {
 				icon: 'search',
 			},
 			{
-				routerLink: '/',
+				routerLink: '/publish-ride',
 				label: 'Publish a ride',
 				icon: 'plus-circle',
 			},
