@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 const clientRoutes: Routes = [
 	{
+		path: '',
+		redirectTo: 'menu',
+		pathMatch: 'full',
+	},
+	{
 		path: 'menu',
 		loadComponent: () =>
 			import('@features/client/pages/user-info/user-info.component').then(
@@ -52,5 +57,54 @@ export const featuresRoutes: Routes = [
 				(c) => c.ProfileComponent
 			),
 		children: clientRoutes,
+	},
+	{
+		path: 'unauthorized',
+		loadComponent: () =>
+			import('@features/errors/pages/unauthorized/unauthorized.component').then(
+				(c) => c.UnauthorizedComponent
+			),
+	},
+	{
+		path: 'forbidden',
+		loadComponent: () =>
+			import('@features/errors/pages/forbidden/forbidden.component').then(
+				(c) => c.ForbiddenComponent
+			),
+	},
+	{
+		path: 'something-went-wrong',
+		loadComponent: () =>
+			import('@features/errors/pages/server-error/server-error.component').then(
+				(c) => c.ServerErrorComponent
+			),
+	},
+	{
+		path: 'too-many-requests',
+		loadComponent: () =>
+			import(
+				'@features/errors/pages/too-many-requests/too-many-requests.component'
+			).then((c) => c.TooManyRequestsComponent),
+	},
+	{
+		path: 'under-construction',
+		loadComponent: () =>
+			import(
+				'@features/errors/pages/under-construction/under-construction.component'
+			).then((c) => c.UnderConstructionComponent),
+	},
+	{
+		path: 'bad-request',
+		loadComponent: () =>
+			import('@features/errors/pages/bad-request/bad-request.component').then(
+				(c) => c.BadRequestComponent
+			),
+	},
+	{
+		path: '**',
+		loadComponent: () =>
+			import('@features/errors/pages/not-found/not-found.component').then(
+				(c) => c.NotFoundComponent
+			),
 	},
 ];
