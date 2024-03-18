@@ -26,6 +26,7 @@
     ],
     "paths": {
       "@app/*": ["app/*"],
+      "@environments/*": ["environments/*"],
       "@config/*": ["app/config/*"],
       "@core/*": ["app/core/*"],
       "@enums/*": ["app/core/enums/*"],
