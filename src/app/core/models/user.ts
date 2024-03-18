@@ -14,6 +14,8 @@ import { AbstractResponse } from '@models/abstract-response';
  * picture, birth year, full birthdate, bio, phone, gender, age, last login date and time, member since date and time,
  * ID checked status, ID checked type, email verification status, phone verification status, picture availability, and
  * verification status.
+ *
+ * @author Mohamed Ossalhe
  */
 export interface User extends AbstractResponse {
 	/**
