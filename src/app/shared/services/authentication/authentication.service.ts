@@ -15,9 +15,10 @@ import { RegistrationRequest } from '@interfaces/requests/registration-request';
 	providedIn: 'root',
 })
 export class AuthenticationService {
-	private authenticateEndPoint: string = environment.API_URL + '/authenticate';
-	private registrationEndPoint: string = environment.API_URL + '/register';
-	private logoutEndPoint: string = environment.API_URL + '/logout';
+	private authenticateEndPoint: string =
+		environment.API_URL + '/auth/authenticate';
+	private registrationEndPoint: string = environment.API_URL + '/auth/register';
+	private logoutEndPoint: string = environment.API_URL + '/auth/logout';
 
 	constructor(private http: HttpClient) {}
 

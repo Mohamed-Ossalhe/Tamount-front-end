@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import {
 	FormControl,
 	FormGroup,
@@ -12,6 +12,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { DividerModule } from 'primeng/divider';
+import { Store } from '@ngrx/store';
+import { AuthenticationPageActions } from '@states/authentication/actions/authentication.page.actions';
+import { selectLoading } from '@states/authentication/authentication.reducer';
+import { AuthenticationRequest } from '@interfaces/requests/authentication-request';
 
 @Component({
 	selector: 'tamount-login-form',
@@ -30,8 +34,12 @@ import { DividerModule } from 'primeng/divider';
 })
 export class LoginFormComponent implements OnInit {
 	loginForm!: FormGroup;
-	loading!: boolean;
+	loading: Signal<boolean> = this.store.selectSignal(selectLoading);
 	errors!: ValidationErrors | null;
+	emailErrorMessage: string = '';
+	passwordErrorMessage: string = '';
+
+	constructor(private store: Store) {}
 
 	emailRegexPattern = new RegExp(
 		'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
@@ -56,20 +64,41 @@ export class LoginFormComponent implements OnInit {
 				]),
 			}
 		);
-		this.loading = false;
 	}
 
-	submitLoginForm() {
-		this.loading = true;
+	submitLoginForm(): void {
 		if (
 			this.loginForm.dirty &&
 			this.loginForm.valid &&
 			this.loginForm.status === 'VALID'
 		) {
-			this.loading = false;
-			console.log('data', this.loginForm.value);
+			const request: AuthenticationRequest = {
+				email: this.loginForm.controls['email'].value,
+				password: this.loginForm.controls['password'].value,
+			};
+			this.store.dispatch(
+				AuthenticationPageActions.authenticate({ request: request })
+			);
 		} else {
-			this.loading = false;
+			const emailErrors: ValidationErrors | null =
+				this.loginForm.controls['email'].errors;
+			const passwordErrors: ValidationErrors | null =
+				this.loginForm.controls['password'].errors;
+			if (emailErrors) {
+				if (emailErrors['pattern']) {
+					this.emailErrorMessage = 'email is invalid';
+				} else if (emailErrors['required']) {
+					this.emailErrorMessage = 'email is required';
+				}
+			}
+			if (passwordErrors) {
+				if (passwordErrors['pattern']) {
+					this.passwordErrorMessage =
+						'password must be at least 1 uppercase letter, 1 lowercase letter, 1 symbol, 1 number and 8 characters long';
+				} else if (passwordErrors['required']) {
+					this.passwordErrorMessage = 'password is required';
+				}
+			}
 		}
 	}
 }

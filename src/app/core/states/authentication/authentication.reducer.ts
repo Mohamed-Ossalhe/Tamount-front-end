@@ -13,7 +13,7 @@ const initialState: AuthenticationState = {
 
 const AuthenticationFeatureKey: string = 'authentication';
 
-const authenticationFeature = createFeature({
+export const authenticationFeature = createFeature({
 	name: AuthenticationFeatureKey,
 	reducer: createReducer(
 		initialState,
@@ -62,16 +62,11 @@ const authenticationFeature = createFeature({
 	),
 });
 
-export const selectAuthenticatedUser = (initialState: AuthenticationState) =>
-	initialState.user;
-export const selectAuthenticationLoading = (
-	initialState: AuthenticationState
-) => initialState.loading;
-export const selectAuthenticationErrors = (initialState: AuthenticationState) =>
-	initialState.errors;
-
 export const {
 	name: authenticationFeatureKey,
 	reducer: authenticationReducer,
 	selectIsAuthenticated,
+	selectLoading,
+	selectUser,
+	selectErrors,
 } = authenticationFeature;

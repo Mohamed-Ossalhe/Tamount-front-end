@@ -15,7 +15,7 @@ const initialState: RegistrationState = {
 
 const RegistrationFeatureKey: string = 'registration';
 
-const registrationFeature = createFeature({
+export const registrationFeature = createFeature({
 	name: RegistrationFeatureKey,
 	reducer: createReducer(
 		initialState,

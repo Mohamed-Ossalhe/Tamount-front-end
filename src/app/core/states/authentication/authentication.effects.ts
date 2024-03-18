@@ -7,7 +7,7 @@ import { AuthenticationApiActions } from '@states/authentication/actions/authent
 import { AuthenticationResponse } from '@models/authentication-response';
 import { TypedAction } from '@ngrx/store/src/models';
 
-export const authenticate$: FunctionalEffect<
+export const authenticate: FunctionalEffect<
 	(
 		actions$?: Actions<TypedAction<'[Authentication Page] authenticate'>>,
 		authenticationService?: AuthenticationService
@@ -28,22 +28,24 @@ export const authenticate$: FunctionalEffect<
 	) => {
 		return actions$.pipe(
 			ofType(AuthenticationPageActions.authenticate),
-			concatMap(({ request }) =>
-				authenticationService.authenticate(request).pipe(
-					map((response: AuthenticationResponse) =>
-						AuthenticationApiActions.authenticationSuccess({ response: response })
-					),
+			concatMap(({ request }) => {
+				return authenticationService.authenticate(request).pipe(
+					map((response: AuthenticationResponse) => {
+						return AuthenticationApiActions.authenticationSuccess({
+							response: response,
+						});
+					}),
 					catchError((error) =>
 						of(AuthenticationApiActions.authenticationFailure({ errors: error }))
 					)
-				)
-			)
+				);
+			})
 		);
 	},
 	{ functional: true }
 );
 
-export const registration$: FunctionalEffect<
+export const registration: FunctionalEffect<
 	(
 		actions$?: Actions<TypedAction<'[Authentication Page] register'>>,
 		authenticationService?: AuthenticationService
@@ -79,7 +81,7 @@ export const registration$: FunctionalEffect<
 	{ functional: true }
 );
 
-export const logout$: FunctionalEffect<
+export const logout: FunctionalEffect<
 	(
 		actions$?: Actions<TypedAction<'[Authentication Page] logout'>>,
 		authenticationService?: AuthenticationService
@@ -95,6 +97,7 @@ export const logout$: FunctionalEffect<
 		authenticationService: AuthenticationService = inject(AuthenticationService)
 	) => {
 		return actions$.pipe(
+			ofType(AuthenticationPageActions.logout),
 			concatMap(() =>
 				authenticationService.logout().pipe(
 					map(() => AuthenticationApiActions.logoutSuccess()),

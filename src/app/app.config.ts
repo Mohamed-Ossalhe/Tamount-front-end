@@ -6,7 +6,7 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from '@app/app.routes';
-import { provideStore } from '@ngrx/store';
+import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { ALL_PRIMENG_UI_MODULES } from '@config/primeng-ui.imports';
@@ -14,6 +14,9 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { PrimengConfig } from '@config/primeng.config';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import * as AuthenticationEffects from '@states/authentication/authentication.effects';
+import { authenticationFeature } from '@states/authentication/authentication.reducer';
+import { registrationFeature } from '@states/registration/registration.reducer';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -25,7 +28,9 @@ export const appConfig: ApplicationConfig = {
 		),
 		provideRouter(routes),
 		provideStore(),
-		provideEffects(),
+		provideEffects(AuthenticationEffects),
+		provideState(authenticationFeature),
+		provideState(registrationFeature),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideAnimationsAsync('noop'),
 	],
