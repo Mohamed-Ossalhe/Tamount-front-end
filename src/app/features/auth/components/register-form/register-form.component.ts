@@ -27,26 +27,32 @@ export class RegisterFormComponent implements OnInit {
 			{
 				label: 'Email',
 				routerLink: 'email',
+				disabled: true,
 			},
 			{
 				label: 'Name',
 				routerLink: 'name',
+				disabled: true,
 			},
 			{
 				label: 'Birth Year',
 				routerLink: 'birthyear',
+				disabled: true,
 			},
 			{
 				label: 'Gender',
 				routerLink: 'gender',
+				disabled: true,
 			},
 			{
 				label: 'Password',
 				routerLink: 'password',
+				disabled: true,
 			},
 			{
 				label: 'Phone',
 				routerLink: 'phone',
+				disabled: true,
 			},
 		];
 	}
