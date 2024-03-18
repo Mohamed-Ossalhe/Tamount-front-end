@@ -1,5 +1,4 @@
-import { Gender } from '@enums/gender';
-import { PhoneRequest } from '@interfaces/requests/phone-request';
+import { RegistrationState } from '@interfaces/registration-state';
 
 /**
  * DTO for creating or updating a User entity.
@@ -8,12 +7,4 @@ import { PhoneRequest } from '@interfaces/requests/phone-request';
  *
  * @author Mohamed Ossalhe
  */
-export interface RegistrationRequest {
-	email: string | null;
-	firstName: string | null;
-	lastName: string | null;
-	birthDate: Date | null;
-	gender: Gender | null;
-	password: string | null;
-	phoneNumber: PhoneRequest | null;
-}
+export interface RegistrationRequest extends RegistrationState {}
