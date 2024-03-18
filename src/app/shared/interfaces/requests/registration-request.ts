@@ -9,11 +9,11 @@ import { PhoneRequest } from '@interfaces/requests/phone-request';
  * @author Mohamed Ossalhe
  */
 export interface RegistrationRequest {
-	email: string;
-	firstName: string;
-	lastName: string;
-	birthDate: Date;
-	gender: Gender;
-	password: string;
-	phoneNumber: PhoneRequest;
+	email: string | null;
+	firstName: string | null;
+	lastName: string | null;
+	birthDate: Date | null;
+	gender: Gender | null;
+	password: string | null;
+	phoneNumber: PhoneRequest | null;
 }
