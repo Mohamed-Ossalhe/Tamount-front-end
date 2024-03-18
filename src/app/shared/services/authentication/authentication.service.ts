@@ -17,6 +17,7 @@ import { RegistrationRequest } from '@interfaces/requests/registration-request';
 export class AuthenticationService {
 	private authenticateEndPoint: string = environment.API_URL + '/authenticate';
 	private registrationEndPoint: string = environment.API_URL + '/register';
+	private logoutEndPoint: string = environment.API_URL + '/logout';
 
 	constructor(private http: HttpClient) {}
 
@@ -48,5 +49,12 @@ export class AuthenticationService {
 			this.registrationEndPoint,
 			registrationRequest
 		);
+	}
+
+	/**
+	 * signs out the authenticated user.
+	 */
+	logout(): Observable<void> {
+		return this.http.post<void>(this.logoutEndPoint, {});
 	}
 }
