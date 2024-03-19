@@ -2,11 +2,13 @@ import { Actions, createEffect, FunctionalEffect, ofType } from '@ngrx/effects';
 import { inject } from '@angular/core';
 import { AuthenticationService } from '@services/authentication/authentication.service';
 import { AuthenticationPageActions } from '@states/authentication/actions/authentication.page.actions';
-import { catchError, concatMap, map, Observable, of } from 'rxjs';
+import { catchError, concatMap, map, Observable, of, tap } from 'rxjs';
 import { AuthenticationApiActions } from '@states/authentication/actions/authentication.api.actions';
 import { AuthenticationResponse } from '@models/authentication-response';
 import { TypedAction } from '@ngrx/store/src/models';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Role } from '@enums/role';
 
 export const authenticate: FunctionalEffect<
 	(
@@ -112,4 +114,55 @@ export const logout: FunctionalEffect<
 		);
 	},
 	{ functional: true }
+);
+
+/**
+ * Redirection After Login or Register Effect
+ *
+ * this effect handles the process of redirections after a successful sign in or sign up or logout by
+ * intercepting the loginSuccess or registerSuccess or logoutSuccess action, and navigate to the appropriate route based
+ * on the user's role.
+ *
+ * @param actions$ - The stream of actions in the application.
+ * @param router - The injected Router service for navigation.
+ * @returns An Observable with no dispatched actions (dispatch: false)
+ */
+export const redirectAfterLoginOrRegisterOrLogoutEffect: FunctionalEffect<
+	(
+		actions$?: Actions<
+			| TypedAction<'[Authentication API] authenticationSuccess'>
+			| TypedAction<'[Authentication API] registrationSuccess'>
+			| TypedAction<'[Authentication API] logoutSuccess'>
+		>,
+		router?: Router
+	) => Observable<unknown>
+> = createEffect(
+	(
+		actions$: Actions<
+			| TypedAction<'[Authentication API] authenticationSuccess'>
+			| TypedAction<'[Authentication API] registrationSuccess'>
+			| TypedAction<'[Authentication API] logoutSuccess'>
+		> = inject(Actions),
+		router = inject(Router)
+	) => {
+		return actions$.pipe(
+			ofType(
+				AuthenticationApiActions.authenticationSuccess,
+				AuthenticationApiActions.registrationSuccess,
+				AuthenticationApiActions.logoutSuccess
+			),
+			tap((action) => {
+				if (action.type !== '[Authentication API] logoutSuccess') {
+					if (action.response.role == Role.ADMIN) {
+						router.navigateByUrl('/admin/');
+					} else {
+						router.navigateByUrl('/');
+					}
+				} else {
+					router.navigateByUrl('/');
+				}
+			})
+		);
+	},
+	{ functional: true, dispatch: false }
 );
