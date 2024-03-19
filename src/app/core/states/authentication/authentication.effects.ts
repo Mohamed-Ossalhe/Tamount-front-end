@@ -6,6 +6,7 @@ import { catchError, concatMap, map, Observable, of } from 'rxjs';
 import { AuthenticationApiActions } from '@states/authentication/actions/authentication.api.actions';
 import { AuthenticationResponse } from '@models/authentication-response';
 import { TypedAction } from '@ngrx/store/src/models';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const authenticate: FunctionalEffect<
 	(
@@ -16,7 +17,7 @@ export const authenticate: FunctionalEffect<
 				response: AuthenticationResponse;
 		  } & TypedAction<'[Authentication API] authenticationSuccess'>)
 		| ({
-				errors: object;
+				errors: HttpErrorResponse;
 		  } & TypedAction<'[Authentication API] authenticationFailure'>)
 	>
 > = createEffect(
@@ -32,11 +33,11 @@ export const authenticate: FunctionalEffect<
 				return authenticationService.authenticate(request).pipe(
 					map((response: AuthenticationResponse) => {
 						return AuthenticationApiActions.authenticationSuccess({
-							response: response,
+							response,
 						});
 					}),
-					catchError((error) =>
-						of(AuthenticationApiActions.authenticationFailure({ errors: error }))
+					catchError((errors: HttpErrorResponse) =>
+						of(AuthenticationApiActions.authenticationFailure({ errors }))
 					)
 				);
 			})
@@ -54,7 +55,7 @@ export const registration: FunctionalEffect<
 				response: AuthenticationResponse;
 		  } & TypedAction<'[Authentication API] registrationSuccess'>)
 		| ({
-				errors: object;
+				errors: HttpErrorResponse;
 		  } & TypedAction<'[Authentication API] registrationFailure'>)
 	>
 > = createEffect(
@@ -69,10 +70,10 @@ export const registration: FunctionalEffect<
 			concatMap(({ request }) =>
 				authenticationService.register(request).pipe(
 					map((response: AuthenticationResponse) =>
-						AuthenticationApiActions.registrationSuccess({ response: response })
+						AuthenticationApiActions.registrationSuccess({ response })
 					),
-					catchError((error) =>
-						of(AuthenticationApiActions.registrationFailure({ errors: error }))
+					catchError((errors: HttpErrorResponse) =>
+						of(AuthenticationApiActions.registrationFailure({ errors }))
 					)
 				)
 			)
@@ -87,7 +88,9 @@ export const logout: FunctionalEffect<
 		authenticationService?: AuthenticationService
 	) => Observable<
 		| TypedAction<'[Authentication API] logoutSuccess'>
-		| ({ errors: object } & TypedAction<'[Authentication API] logoutFailure'>)
+		| ({
+				errors: HttpErrorResponse;
+		  } & TypedAction<'[Authentication API] logoutFailure'>)
 	>
 > = createEffect(
 	(
@@ -101,8 +104,8 @@ export const logout: FunctionalEffect<
 			concatMap(() =>
 				authenticationService.logout().pipe(
 					map(() => AuthenticationApiActions.logoutSuccess()),
-					catchError((error) =>
-						of(AuthenticationApiActions.logoutFailure({ errors: error }))
+					catchError((errors: HttpErrorResponse) =>
+						of(AuthenticationApiActions.logoutFailure({ errors }))
 					)
 				)
 			)

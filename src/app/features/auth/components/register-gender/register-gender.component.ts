@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule, ValidationErrors } from '@angular/forms';
-import { Gender } from '@shared/types/gender.type';
+import { GenderType } from '@shared/types/gender.type';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { RegistrationPageActions } from '@states/registration/actions/registration.page.actions';
+import { Gender } from '@enums/gender';
 
 @Component({
 	selector: 'tamount-register-gender',
@@ -13,22 +16,26 @@ import { Router } from '@angular/router';
 	styleUrl: './register-gender.component.scss',
 })
 export class RegisterGenderComponent implements OnInit {
-	genders!: Gender[];
-	gender!: string;
+	genders!: GenderType[];
+	gender!: Gender;
 	errors!: ValidationErrors | null;
 	loading!: boolean;
+	genderErrorsMessage: string = '';
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit() {
 		this.genders = [
 			{
 				label: 'Ms, Mrs.',
-				value: 'female',
+				value: Gender.FEMALE,
 			},
 			{
 				label: 'Mr.',
-				value: 'male',
+				value: Gender.MALE,
 			},
 		];
 		this.errors = {};
@@ -41,14 +48,16 @@ export class RegisterGenderComponent implements OnInit {
 			const genderBtn: HTMLButtonElement = e.currentTarget as HTMLButtonElement;
 			if (genderBtn !== null) {
 				this.loading = false;
-				this.gender = genderBtn.id;
+				this.gender = genderBtn.id as Gender;
 				this.router.navigateByUrl('authentication/register/info/password');
-				// TODO: add gender to the state
+				this.store.dispatch(
+					RegistrationPageActions.enterGender({ gender: this.gender })
+				);
 			}
 		} else {
 			this.loading = false;
 			if (this.errors !== null) {
-				this.errors['gender'] = 'gender is required';
+				this.genderErrorsMessage = 'gender is required';
 			}
 		}
 	}

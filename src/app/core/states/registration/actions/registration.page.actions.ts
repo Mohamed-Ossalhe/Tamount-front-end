@@ -1,5 +1,6 @@
 import { createActionGroup, props } from '@ngrx/store';
 import { Gender } from '@enums/gender';
+import { PhoneRequest } from '@interfaces/requests/phone-request';
 
 const source = 'Registration Page' as const;
 
@@ -11,6 +12,6 @@ export const RegistrationPageActions = createActionGroup({
 		enterBirthDate: props<{ birthDate: Date }>(),
 		enterGender: props<{ gender: Gender }>(),
 		enterPassword: props<{ password: string }>(),
-		enterPhone: props<{ phone: string }>(),
+		enterPhone: props<{ phoneNumber: PhoneRequest }>(),
 	},
 });

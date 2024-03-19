@@ -1,4 +1,5 @@
 import { AuthenticationResponse } from '@models/authentication-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 /**
  * Represents the state related to authentication in the NgRx store.
@@ -22,5 +23,5 @@ export interface AuthenticationState {
 	/**
 	 * Stores authentication-related errors, if any.
 	 */
-	errors: object | null;
+	errors: HttpErrorResponse | undefined;
 }

@@ -10,6 +10,8 @@ import {
 } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { RegistrationPageActions } from '@states/registration/actions/registration.page.actions';
 
 @Component({
 	selector: 'tamount-register-birthyear',
@@ -22,15 +24,18 @@ export class RegisterBirthyearComponent implements OnInit {
 	birthYearForm!: FormGroup;
 	errors!: ValidationErrors | null;
 	loading!: boolean;
+	birthDateErrorMessage: string = '';
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit() {
 		this.birthYearForm = new FormGroup<{ birthYear: FormControl }>({
-			birthYear: new FormControl<string>(
-				{ value: '', disabled: false },
-				Validators.required
-			),
+			birthYear: new FormControl<string>({ value: '', disabled: false }, [
+				Validators.required,
+			]),
 		});
 		this.errors = {};
 		this.loading = false;
@@ -45,12 +50,21 @@ export class RegisterBirthyearComponent implements OnInit {
 		) {
 			this.loading = false;
 			this.router.navigateByUrl('authentication/register/info/gender');
-			// TODO: add birth year to the state
+			this.store.dispatch(
+				RegistrationPageActions.enterBirthDate({
+					birthDate: this.birthYearForm.controls['birthYear'].value,
+				})
+			);
 		} else {
 			this.loading = false;
-			if (this.errors !== null) {
-				this.errors['birthYear'] = this.birthYearForm.controls['birthYear'].errors;
-				console.log(this.errors);
+			const birthDateErrors: ValidationErrors | null =
+				this.birthYearForm.controls['birthYear'].errors;
+			if (birthDateErrors) {
+				if (birthDateErrors['pattern']) {
+					this.birthDateErrorMessage = 'birth date is invalid';
+				} else if (birthDateErrors['required']) {
+					this.birthDateErrorMessage = 'birth date is required';
+				}
 			}
 		}
 	}

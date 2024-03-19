@@ -2,6 +2,7 @@ import { RegistrationState } from '@interfaces/registration-state';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { RegistrationPageActions } from '@states/registration/actions/registration.page.actions';
 import { Gender } from '@enums/gender';
+import { PhoneRequest } from '@interfaces/requests/phone-request';
 
 const initialState: RegistrationState = {
 	email: null,
@@ -60,9 +61,9 @@ export const registrationFeature = createFeature({
 		),
 		on(
 			RegistrationPageActions.enterPhone,
-			(state: RegistrationState, action: { phone: string }) => ({
+			(state: RegistrationState, action: { phoneNumber: PhoneRequest }) => ({
 				...state,
-				phone: action.phone,
+				phoneNumber: action.phoneNumber,
 			})
 		)
 	),
@@ -78,4 +79,5 @@ export const {
 	selectFirstName,
 	selectLastName,
 	selectPhoneNumber,
+	selectRegistrationState,
 } = registrationFeature;

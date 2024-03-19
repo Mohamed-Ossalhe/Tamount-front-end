@@ -3,12 +3,13 @@ import { AuthenticationState } from '@interfaces/authentication-state';
 import { AuthenticationPageActions } from '@states/authentication/actions/authentication.page.actions';
 import { AuthenticationApiActions } from '@states/authentication/actions/authentication.api.actions';
 import { AuthenticationResponse } from '@models/authentication-response';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const initialState: AuthenticationState = {
 	user: undefined,
 	isAuthenticated: false,
 	loading: false,
-	errors: null,
+	errors: undefined,
 };
 
 const AuthenticationFeatureKey: string = 'authentication';
@@ -50,7 +51,7 @@ export const authenticationFeature = createFeature({
 			AuthenticationApiActions.logoutFailure,
 			(
 				state: AuthenticationState,
-				action: { errors: object }
+				action: { errors: HttpErrorResponse }
 			): AuthenticationState => ({
 				...state,
 				loading: false,

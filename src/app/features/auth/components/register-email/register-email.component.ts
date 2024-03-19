@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { RegistrationPageActions } from '@states/registration/actions/registration.page.actions';
 
 @Component({
 	selector: 'tamount-register-email',
@@ -19,13 +21,15 @@ import { Router } from '@angular/router';
 })
 export class RegisterEmailComponent implements OnInit {
 	emailForm!: FormGroup;
-	emailRegexPattern = new RegExp(
-		'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$'
-	);
+	emailRegexPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 	errors!: ValidationErrors | null;
 	loading!: boolean;
+	emailErrorMessage: string = '';
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit() {
 		this.emailForm = new FormGroup<{ email: FormControl }>({
@@ -46,13 +50,22 @@ export class RegisterEmailComponent implements OnInit {
 			this.emailForm.status === 'VALID'
 		) {
 			this.loading = false;
+			this.store.dispatch(
+				RegistrationPageActions.enterEmail({
+					email: this.emailForm.controls['email'].value,
+				})
+			);
 			this.router.navigateByUrl('authentication/register/info/name');
-			// TODO: add the email to the state
 		} else {
 			this.loading = false;
-			if (this.errors !== null) {
-				this.errors['email'] = this.emailForm.controls['email'].errors;
-				console.log(this.errors);
+			const emailErrors: ValidationErrors | null =
+				this.emailForm.controls['email'].errors;
+			if (emailErrors) {
+				if (emailErrors['pattern']) {
+					this.emailErrorMessage = 'email is invalid';
+				} else if (emailErrors['required']) {
+					this.emailErrorMessage = 'email is required';
+				}
 			}
 		}
 	}

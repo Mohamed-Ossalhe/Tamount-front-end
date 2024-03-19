@@ -1,4 +1,4 @@
-export type Gender = {
+export type GenderType = {
 	label: string;
 	value: string;
 };

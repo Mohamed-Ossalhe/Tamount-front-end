@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { RegistrationPageActions } from '@states/registration/actions/registration.page.actions';
 
 @Component({
 	selector: 'tamount-register-password',
@@ -21,11 +23,14 @@ export class RegisterPasswordComponent implements OnInit {
 	passwordForm!: FormGroup;
 	errors!: ValidationErrors | null;
 	loading!: boolean;
-	passwordRegexPattern = new RegExp(
-		'^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$'
-	);
+	passwordRegexPattern =
+		/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+	passwordErrorsMessage: string = '';
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit() {
 		this.passwordForm = new FormGroup<{ password: FormControl }>({
@@ -47,12 +52,21 @@ export class RegisterPasswordComponent implements OnInit {
 		) {
 			this.loading = false;
 			this.router.navigateByUrl('authentication/register/info/phone');
-			// TODO: add phone number to the state
+			this.store.dispatch(
+				RegistrationPageActions.enterPassword({
+					password: this.passwordForm.controls['password'].value,
+				})
+			);
 		} else {
 			this.loading = false;
-			if (this.errors !== null) {
-				this.errors['password'] = this.passwordForm.controls['password'].errors;
-				console.log(this.errors);
+			const passwordErrors: ValidationErrors | null =
+				this.passwordForm.controls['password'].errors;
+			if (passwordErrors) {
+				if (passwordErrors['pattern']) {
+					this.passwordErrorsMessage = 'password is invalid';
+				} else if (passwordErrors['required']) {
+					this.passwordErrorsMessage = 'password is required';
+				}
 			}
 		}
 	}
