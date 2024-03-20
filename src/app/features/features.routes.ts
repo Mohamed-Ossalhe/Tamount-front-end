@@ -56,6 +56,13 @@ export const featuresRoutes: Routes = [
 				(c) => c.RideDetailsComponent
 			),
 	},
+	{
+		path: 'booking-details',
+		loadComponent: () =>
+			import(
+				'@features/home/pages/booking-request-details/booking-request-details.component'
+			).then((c) => c.BookingRequestDetailsComponent),
+	},
 	// TODO: this should be in another file ex: client routes separated ⬇️
 	{
 		path: 'profile',

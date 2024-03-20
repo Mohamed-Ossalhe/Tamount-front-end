@@ -1,0 +1,50 @@
+<div class="booking-request-details">
+    <div class="booking-request-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
+        <div class="booing-request-wrapper flex flex-col items-center justify-start">
+            <div class="heading flex items-center justify-center my-10 text-center">
+                <h1 class="text-3xl text-tamount-primary font-bold">Check your booking request details</h1>
+            </div>
+            <div class="ride-booking-type mb-10">
+                <div class="ride-booking-wrapper flex items-center gap-4 text-slate-600 font-medium">
+                    <tamount-icon icon="clock" styleClass="text-xl" />
+                    <p>Your booking won't be confirmed until the driver approves your request</p>
+                </div>
+            </div>
+            <div class="ride-trip-points drop-shadow-md">
+                <div class="ride-date flex items-center justify-center mb-2">
+                    <p class="text-xl text-tamount-primary font-bold">Fri, 22 Mar</p>
+                </div>
+                <div class="card">
+                    <p-timeline [value]="events">
+                        <ng-template pTemplate="content" let-event>
+                            <div class="flex flex-col gap-2">
+                                <p class="font-medium">{{ event.city }}</p>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="opposite" let-event>
+                            <p class="font-medium">{{ event.time }}</p>
+                        </ng-template>
+                    </p-timeline>
+                </div>
+            </div>
+            <hr class="w-1/2 my-6 border-4 border-slate-200 rounded">
+            <div class="ride-price w-1/2">
+                <p class="text-xl font-medium text-tamount-primary">Price summary</p>
+                <p-button styleClass="w-full py-5 my-5 text-slate-600" severity="secondary">
+                    <div class="ride-price-wrapper flex items-center justify-between w-full">
+                        <p class="ride-price-text font-medium">Total price for 1 passenger</p>
+                        <p class="ride-price-amount font-medium">MAD 17.89</p>
+                    </div>
+                </p-button>
+            </div>
+            <div class="booking-button-wrapper flex items-center justify-center py-5">
+                <p-button styleClass="w-full py-3 px-6 bg-tamount-primary rounded-full" severity="info">
+                    <div class="card-wrapper flex items-center justify-left gap-4 w-full text-white">
+                        <tamount-icon icon="calendar" styleClass="text-xl" />
+                        <p>Continue</p>
+                    </div>
+                </p-button>
+            </div>
+        </div>
+    </div>
+</div>
