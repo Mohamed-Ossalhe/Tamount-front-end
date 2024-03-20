@@ -36,7 +36,7 @@ export const authenticate: FunctionalEffect<
 			concatMap(({ request }) => {
 				return authenticationService.authenticate(request).pipe(
 					map((response: AuthenticationResponse) => {
-						persistenceService.setPersisteState('access', response);
+						persistenceService.setPersistState('access', response);
 						return AuthenticationApiActions.authenticationSuccess({
 							response,
 						});
@@ -76,7 +76,7 @@ export const registration: FunctionalEffect<
 			concatMap(({ request }) =>
 				authenticationService.register(request).pipe(
 					map((response: AuthenticationResponse) => {
-						persistenceService.setPersisteState('access', response);
+						persistenceService.setPersistState('access', response);
 						return AuthenticationApiActions.registrationSuccess({ response });
 					}),
 					catchError((errors: HttpErrorResponse) =>
@@ -112,7 +112,7 @@ export const logout: FunctionalEffect<
 			concatMap(() =>
 				authenticationService.logout().pipe(
 					map(() => {
-						persistenceService.clearPersisteState('access');
+						persistenceService.clearPersistedState('access');
 						return AuthenticationApiActions.logoutSuccess();
 					}),
 					catchError((errors: HttpErrorResponse) =>

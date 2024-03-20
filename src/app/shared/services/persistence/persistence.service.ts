@@ -7,7 +7,7 @@ import { AuthenticationState } from '@interfaces/authentication-state';
 export class PersistenceService {
 	constructor() {}
 
-	setPersisteState(key: string, data: unknown): void {
+	setPersistState(key: string, data: unknown): void {
 		if (data != null)
 			localStorage.setItem(
 				key,
@@ -16,12 +16,12 @@ export class PersistenceService {
 		else localStorage.setItem(key, JSON.stringify(data));
 	}
 
-	getPersisteState(key: string): void {
+	getPersistedState(key: string): AuthenticationState {
 		const data: string | null = localStorage.getItem(key);
 		return data ? JSON.parse(data) : null;
 	}
 
-	clearPersisteState(key: string) {
+	clearPersistedState(key: string): void {
 		if (localStorage.getItem(key) !== null) {
 			localStorage.removeItem(key);
 		}

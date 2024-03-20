@@ -1,22 +1,29 @@
-import { ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
+import { Action, ActionReducer, INIT, MetaReducer, UPDATE } from '@ngrx/store';
 import { AuthenticationState } from '@interfaces/authentication-state';
+import { PersistenceService } from '@services/persistence/persistence.service';
+import { inject } from '@angular/core';
 
 const hydrationMetaReducer = (
-	reducer: ActionReducer<AuthenticationState>
+	reducer: ActionReducer<AuthenticationState>,
+	persistenceService: PersistenceService = inject(PersistenceService)
 ): ActionReducer<AuthenticationState> => {
-	return (state, action) => {
+	return (
+		state: AuthenticationState | undefined,
+		action: Action
+	): AuthenticationState => {
 		if (action.type === INIT || action.type === UPDATE) {
-			const storageValue = localStorage.getItem('access');
+			const storageValue: AuthenticationState =
+				persistenceService.getPersistedState('access');
 			if (storageValue) {
 				try {
-					return JSON.parse(storageValue);
+					return persistenceService.getPersistedState('access');
 				} catch {
-					localStorage.removeItem('access');
+					persistenceService.clearPersistedState('access');
 				}
 			}
 		}
-		const nextState = reducer(state, action);
-		localStorage.setItem('access', JSON.stringify(nextState));
+		const nextState: AuthenticationState = reducer(state, action);
+		persistenceService.setPersistState('access', nextState);
 		return nextState;
 	};
 };
