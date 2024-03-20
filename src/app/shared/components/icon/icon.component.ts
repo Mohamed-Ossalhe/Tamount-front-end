@@ -9,5 +9,5 @@ import { Component, input, InputSignal } from '@angular/core';
 })
 export class IconComponent {
 	icon: InputSignal<string | undefined> = input<string>();
-	size: InputSignal<string | undefined> = input<string>();
+	styleClass: InputSignal<string | undefined> = input<string>();
 }

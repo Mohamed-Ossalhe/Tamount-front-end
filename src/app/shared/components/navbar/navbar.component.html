@@ -9,7 +9,7 @@
             <div class="navbar-navigations flex items-center justify-center gap-5 max-sm:order-0">
                 <!-- Show on mobile only -->
                 <div class="navbar_navigation-mobile flex sm:hidden">
-                    <tamount-icon (click)="navMenu.toggle($event)" icon="bars" size="text-2xl" class="cursor-pointer" />
+                    <tamount-icon (click)="navMenu.toggle($event)" icon="bars" styleClass="text-2xl" class="cursor-pointer" />
                     <p-menu #navMenu [model]="navigationItems" [popup]="true"></p-menu>
                 </div>
                 <!-- Hide on mobile -->
@@ -17,7 +17,7 @@
                     @for (item of navigationItems; track $index) {
                         <li class="navbar-navigation-menu-item">
                             <a [routerLink]="item.routerLink" class="flex items-center gap-2 py-1 px-3 medium capitalize">
-                                <tamount-icon [icon]="item.icon" size="text-xl" />
+                                <tamount-icon [icon]="item.icon" styleClass="text-xl" />
                                 {{ item.label }}
                             </a>
                         </li>
