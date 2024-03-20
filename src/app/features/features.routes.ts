@@ -63,6 +63,13 @@ export const featuresRoutes: Routes = [
 				'@features/home/pages/booking-request-details/booking-request-details.component'
 			).then((c) => c.BookingRequestDetailsComponent),
 	},
+	{
+		path: 'payment-methods',
+		loadComponent: () =>
+			import(
+				'@features/home/pages/payment-methods/payment-methods.component'
+			).then((c) => c.PaymentMethodsComponent),
+	},
 	// TODO: this should be in another file ex: client routes separated ⬇️
 	{
 		path: 'profile',

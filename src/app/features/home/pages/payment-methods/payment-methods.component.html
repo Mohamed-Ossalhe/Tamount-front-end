@@ -1,0 +1,40 @@
+<div class="payment-methods">
+    <div class="payment-methods-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
+        <div class="payment-methods-wrapper flex flex-col items-center justify-start">
+            <div class="heading flex items-center justify-center my-10 text-center">
+                <h1 class="text-3xl text-tamount-primary font-bold">Select your payment method</h1>
+            </div>
+            <div class="payment-methods-disclaimer mb-10">
+                <div class="payment-methods-disclaimer-wrapper flex items-start sm:items-center gap-4 text-slate-500 font-medium">
+                    <tamount-icon icon="money-bill" styleClass="text-xl" />
+                    <p>You'll be refunded if the driver doesn't approve your request</p>
+                </div>
+            </div>
+            <p class="text-red-600 text-sm">{{ errorMessage }}</p>
+            <hr class="w-full sm:w-1/2 my-6 border-4 border-slate-200 rounded">
+            <div class="payment-methods-types w-full sm:w-1/2 flex flex-col justify-center gap-4">
+                @for (method of paymentMethods; track $index) {
+                    <p-button [id]="method.value" styleClass="w-full py-5 px-4" severity="secondary" (click)="selectMethod($event)">
+                        <div class="card-wrapper flex items-center justify-left gap-5 w-full">
+                            <tamount-icon [icon]="method.icon" styleClass="text-xl text-tamount-primary" />
+                            <p class="text-tamount-primary font-medium">{{ method.label }}</p>
+                        </div>
+                    </p-button>
+                }
+            </div>
+            <hr class="w-full sm:w-1/2 my-6 border-4 border-slate-200 rounded">
+            <div class="payment-methods-disclaimer-two flex items-start justify-start sm:items-center gap-4 w-full sm:w-1/2 text-slate-500 font-medium">
+                <tamount-icon icon="lock" styleClass="text-base" />
+                <p class="text-sm">Your payment is 100% secure.</p>
+            </div>
+            <div class="booking-button-wrapper flex items-center justify-center py-5">
+                <p-button styleClass="w-full py-3 px-6 bg-tamount-primary rounded-full" severity="info" (click)="submitPayment()">
+                    <div class="card-wrapper flex items-center justify-left gap-4 w-full text-white">
+                        <tamount-icon icon="lock" styleClass="text-xl" />
+                        <p>Pay MAD 17.89</p>
+                    </div>
+                </p-button>
+            </div>
+        </div>
+    </div>
+</div>
