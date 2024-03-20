@@ -9,6 +9,7 @@ import { TypedAction } from '@ngrx/store/src/models';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Role } from '@enums/role';
+import { PersistenceService } from '@services/persistence/persistence.service';
 
 export const authenticate: FunctionalEffect<
 	(
@@ -27,13 +28,15 @@ export const authenticate: FunctionalEffect<
 		actions$: Actions<TypedAction<'[Authentication Page] authenticate'>> = inject(
 			Actions
 		),
-		authenticationService: AuthenticationService = inject(AuthenticationService)
+		authenticationService: AuthenticationService = inject(AuthenticationService),
+		persistenceService: PersistenceService = inject(PersistenceService)
 	) => {
 		return actions$.pipe(
 			ofType(AuthenticationPageActions.authenticate),
 			concatMap(({ request }) => {
 				return authenticationService.authenticate(request).pipe(
 					map((response: AuthenticationResponse) => {
+						persistenceService.setPersisteState('access', response);
 						return AuthenticationApiActions.authenticationSuccess({
 							response,
 						});
@@ -65,15 +68,17 @@ export const registration: FunctionalEffect<
 		actions$: Actions<TypedAction<'[Authentication Page] register'>> = inject(
 			Actions
 		),
-		authenticationService: AuthenticationService = inject(AuthenticationService)
+		authenticationService: AuthenticationService = inject(AuthenticationService),
+		persistenceService: PersistenceService = inject(PersistenceService)
 	) => {
 		return actions$.pipe(
 			ofType(AuthenticationPageActions.register),
 			concatMap(({ request }) =>
 				authenticationService.register(request).pipe(
-					map((response: AuthenticationResponse) =>
-						AuthenticationApiActions.registrationSuccess({ response })
-					),
+					map((response: AuthenticationResponse) => {
+						persistenceService.setPersisteState('access', response);
+						return AuthenticationApiActions.registrationSuccess({ response });
+					}),
 					catchError((errors: HttpErrorResponse) =>
 						of(AuthenticationApiActions.registrationFailure({ errors }))
 					)
@@ -99,13 +104,17 @@ export const logout: FunctionalEffect<
 		actions$: Actions<TypedAction<'[Authentication Page] logout'>> = inject(
 			Actions
 		),
-		authenticationService: AuthenticationService = inject(AuthenticationService)
+		authenticationService: AuthenticationService = inject(AuthenticationService),
+		persistenceService: PersistenceService = inject(PersistenceService)
 	) => {
 		return actions$.pipe(
 			ofType(AuthenticationPageActions.logout),
 			concatMap(() =>
 				authenticationService.logout().pipe(
-					map(() => AuthenticationApiActions.logoutSuccess()),
+					map(() => {
+						persistenceService.clearPersisteState('access');
+						return AuthenticationApiActions.logoutSuccess();
+					}),
 					catchError((errors: HttpErrorResponse) =>
 						of(AuthenticationApiActions.logoutFailure({ errors }))
 					)
