@@ -15,12 +15,14 @@ import { PrimengConfig } from '@config/primeng.config';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as AuthenticationEffects from '@states/authentication/authentication.effects';
+import * as ProfileEffects from '@states/profile/profile.effects';
 import {
 	authenticationFeatureKey,
 	authenticationReducer,
 } from '@states/authentication/authentication.reducer';
 import { registrationFeature } from '@states/registration/registration.reducer';
 import { metaReducers } from '@states/authentication/rehydrate.reducer';
+import { profileFeature } from '@states/profile/profile.reducer';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -32,11 +34,12 @@ export const appConfig: ApplicationConfig = {
 		),
 		provideRouter(routes),
 		provideStore(),
-		provideEffects(AuthenticationEffects),
+		provideEffects(AuthenticationEffects, ProfileEffects),
 		provideState(authenticationFeatureKey, authenticationReducer, {
 			metaReducers: metaReducers,
 		}),
 		provideState(registrationFeature),
+		provideState(profileFeature),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideAnimationsAsync('noop'),
 	],

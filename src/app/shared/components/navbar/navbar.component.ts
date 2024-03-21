@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { IconComponent } from '@components/icon/icon.component';
 import { RouterLink } from '@angular/router';
@@ -8,6 +8,8 @@ import { MenuItem } from 'primeng/api';
 import { TieredMenuModule } from 'primeng/tieredmenu';
 import { MenuModule } from 'primeng/menu';
 import { NavigationItem } from '@shared/types/navigation-item-type';
+import { Store } from '@ngrx/store';
+import { selectIsAuthenticated } from '@states/authentication/authentication.reducer';
 
 @Component({
 	selector: 'tamount-navbar',
@@ -28,9 +30,27 @@ export class NavbarComponent implements OnInit {
 	navbarLogo: string = 'assets/primary-logo.png';
 	navigationItems: NavigationItem[] | undefined;
 	menuItems: MenuItem[] | undefined;
+	authMenuItems: MenuItem[] | undefined;
+	isUserAuthenticated: Signal<boolean> = this.store.selectSignal(
+		selectIsAuthenticated
+	);
+
+	constructor(private store: Store) {}
 
 	ngOnInit() {
 		this.menuItems = [
+			{
+				label: 'Profile',
+				icon: 'pi pi-user',
+				routerLink: 'profile',
+			},
+			{
+				label: 'Log out',
+				icon: 'pi pi-times-circle',
+				routerLink: 'authentication/logout',
+			},
+		];
+		this.authMenuItems = [
 			{
 				label: 'Log in',
 				icon: 'pi pi-profile',

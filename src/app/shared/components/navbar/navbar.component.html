@@ -25,8 +25,13 @@
                 </ul>
             </div>
             <div class="navbar-navigation-menu-item max-sm:order-2">
-                <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large" (click)="profileMenu.toggle($event)"></p-avatar>
-                <p-menu #profileMenu [model]="menuItems" [popup]="true"></p-menu>
+                @if (isUserAuthenticated()) {
+                    <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large" (click)="profileMenu.toggle($event)"></p-avatar>
+                    <p-menu #profileMenu [model]="menuItems" [popup]="true"></p-menu>
+                } @else {
+                    <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large" (click)="profileMenu.toggle($event)"></p-avatar>
+                    <p-menu #profileMenu [model]="authMenuItems" [popup]="true"></p-menu>
+                }
             </div>
         </div>
     </div>
