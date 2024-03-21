@@ -7,15 +7,18 @@
                         <div class="card-wrapper flex items-center justify-between w-full">
                             <div class="user-general-info text-left">
                                 <div class="user-name">
-                                    <h1 class="text-tamount-primary text-3xl font-medium">hello</h1>
+                                    <h1 class="text-tamount-primary text-3xl font-medium">{{ profile().firstName }}</h1>
                                 </div>
                                 <div class="user-status">
                                     <p class="text-slate-500 font-medium capitalize">newcomer</p>
                                 </div>
                             </div>
                             <div class="user-picture">
-                                <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="xlarge"></p-avatar>
-                                <!-- TODO: add user picture here if exist else show this avatar -->
+                                @if (profile().hasPicture && profile().picture != undefined) {
+                                    <p-avatar [image]="profile().picture" styleClass="mr-2 cursor-pointer" shape="circle" size="xlarge"></p-avatar>
+                                } @else {
+                                    <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="xlarge"></p-avatar>
+                                }
                             </div>
                         </div>
                     </p-button>

@@ -11,59 +11,59 @@ import { HttpErrorResponse } from '@angular/common/http';
 export interface ProfileState {
 	loading: boolean;
 
-	errors: HttpErrorResponse | null;
+	errors: HttpErrorResponse | undefined;
 
-	firstName: string | null;
+	firstName: string | undefined;
 
 	/**
 	 * Represents the last name of the user.
 	 */
-	lastName: string | null;
+	lastName: string | undefined;
 
 	/**
 	 * Represents the email address of the user. Must be unique.
 	 */
-	email: string | null;
+	email: string | undefined;
 
 	/**
 	 * Represents the role of the user.
 	 */
-	role: Role | null;
+	role: Role | undefined;
 
 	/**
 	 * Represents the URL path of the user's profile picture.
 	 */
-	picture: string | null;
+	picture: string | undefined;
 
 	/**
 	 * Represents the biography of the user.
 	 */
-	bio: string | null;
+	bio: string | undefined;
 
 	/**
 	 * Represents the phone number associated with the user.
 	 */
-	phone: Phone | null;
+	phone: Phone | undefined;
 
 	/**
 	 * Represents the gender of the user.
 	 */
-	gender: Gender | null;
+	gender: Gender | undefined;
 
 	/**
 	 * Represents the age of the user.
 	 */
-	age: number | null;
+	age: number | undefined;
 
 	/**
 	 * Represents the status of the user's ID verification.
 	 */
-	idChecked: IdChecked | null;
+	idChecked: IdChecked | undefined;
 
 	/**
 	 * Represents the type of ID verification the user underwent.
 	 */
-	idCheckedType: IdCheckedType | null;
+	idCheckedType: IdCheckedType | undefined;
 
 	/**
 	 * Represents whether the user's email address is verified.
@@ -83,15 +83,15 @@ export interface ProfileState {
 	/**
 	 * Represents the verification status of the user's account.
 	 */
-	verificationStatus: VerificationStatus | null;
+	verificationStatus: VerificationStatus | undefined;
 
 	/**
 	 * Represents the list of cars associated with the user.
 	 */
-	cars: Car[] | null | undefined;
+	cars: Car[] | undefined;
 
 	/**
 	 * Represents the preferences of the user.
 	 */
-	preferences: Preferences | null | undefined;
+	preferences: Preferences | undefined;
 }

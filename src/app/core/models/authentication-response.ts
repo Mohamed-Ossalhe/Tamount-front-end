@@ -8,12 +8,12 @@ export interface AuthenticationResponse {
 	/**
 	 * Access token for authentication.
 	 */
-	accessToken: string;
+	access_token: string;
 
 	/**
 	 * Refresh token for token refreshing.
 	 */
-	refreshToken: string;
+	refresh_token: string;
 
 	/**
 	 * The user's username.

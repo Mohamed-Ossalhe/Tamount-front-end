@@ -23,6 +23,8 @@ import {
 import { registrationFeature } from '@states/registration/registration.reducer';
 import { metaReducers } from '@states/authentication/rehydrate.reducer';
 import { profileFeature } from '@states/profile/profile.reducer';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authorizationInterceptor } from '@interceptors/authorization-interceptor/authorization.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -42,5 +44,6 @@ export const appConfig: ApplicationConfig = {
 		provideState(profileFeature),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideAnimationsAsync('noop'),
+		provideHttpClient(withInterceptors([authorizationInterceptor])),
 	],
 };

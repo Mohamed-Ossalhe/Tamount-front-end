@@ -16,7 +16,5 @@ import { ProfileState } from '@interfaces/profile-state';
 export class UserInfoComponent {
 	profile: Signal<ProfileState> = this.store.selectSignal(selectProfileState);
 
-	constructor(private store: Store) {
-		console.log(this.profile());
-	}
+	constructor(private store: Store) {}
 }
