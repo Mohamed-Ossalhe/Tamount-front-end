@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authenticationGuard } from '@guards/authentication/authentication.guard';
 
 const clientRoutes: Routes = [
 	{
@@ -78,6 +79,7 @@ export const featuresRoutes: Routes = [
 				(c) => c.ProfileComponent
 			),
 		children: clientRoutes,
+		canActivate: [authenticationGuard],
 	},
 	{
 		path: 'unauthorized',
