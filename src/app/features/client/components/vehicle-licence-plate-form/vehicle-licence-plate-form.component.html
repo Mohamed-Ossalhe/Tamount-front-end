@@ -1,0 +1,28 @@
+<div class="licence-plate">
+    <div class="licence-plate-container">
+        <div class="licence-plate-wrapper flex flex-col items-center justify-center my-10">
+            <div class="login-page-heading flex items-center justify-center my-5">
+                <h1 class="text-3xl font-bold">What is your license plate number?</h1>
+            </div>
+            <form class="w-full space-y-5" (submit)="submit()" [formGroup]="licencePlateForm">
+                <div class="form-field">
+                    <div class="flex flex-col gap-2">
+                        <label for="plate">Licence Plate</label>
+                        <input pInputText id="plate" formControlName="licencePlate" placeholder="Licence Plate" class="py-3 px-2 border" aria-describedby="username-help" required/>
+                        <small id="username-error" class="text-xs text-red-600">{{licencePlateMessage}}</small>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="flex flex-col gap-2">
+                        <p-button type="submit" styleClass="py-2 w-full bg-tamount-primary text-white" [disabled]="loading" label="Continue" loadingIcon="pi pi-spinner" [loading]="loading"></p-button>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="flex flex-col gap-2">
+                        <p-button type="button" styleClass="py-2 w-full" severity="secondary" label="I don't know my licence plate number" (click)="continueWithoutPlate()"></p-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

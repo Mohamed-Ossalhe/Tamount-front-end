@@ -1,0 +1,23 @@
+<div class="vehicle-type w-full">
+    <div class="vehicle-type-container">
+        <div class="vehicle-type-wrapper flex flex-col items-center justify-center my-10">
+            <div class="login-page-heading flex items-center justify-center my-5">
+                <h1 class="text-3xl font-bold">What color is your vehicle?</h1>
+            </div>
+            <form class="w-full space-y-5" (submit)="submit()" [formGroup]="colorForm">
+                <div class="form-field">
+                    <div class="flex flex-col gap-2">
+                        <label for="color">Vehicle Color</label>
+                        <input pInputText id="color" formControlName="color" placeholder="Color" class="py-3 px-2 border" aria-describedby="username-help" required/>
+                        <small id="username-error" class="text-xs text-red-600">{{colorMessage}}</small>
+                    </div>
+                </div>
+                <div class="form-field">
+                    <div class="flex flex-col gap-2">
+                        <p-button type="submit" styleClass="py-2 w-full bg-tamount-primary text-white" [disabled]="loading" label="Continue" loadingIcon="pi pi-spinner" [loading]="loading"></p-button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

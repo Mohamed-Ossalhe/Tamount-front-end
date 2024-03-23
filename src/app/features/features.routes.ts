@@ -21,6 +21,62 @@ const clientRoutes: Routes = [
 				'@features/client/pages/account-settings/account-settings.component'
 			).then((c) => c.AccountSettingsComponent),
 	},
+	{
+		path: 'vehicle/add',
+		loadComponent: () =>
+			import(
+				'@features/client/components/vehicle-form/vehicle-form.component'
+			).then((c) => c.VehicleFormComponent),
+		children: [
+			{
+				path: '',
+				redirectTo: 'licence-plate',
+				pathMatch: 'full',
+			},
+			{
+				path: 'licence-plate',
+				loadComponent: () =>
+					import(
+						'@features/client/components/vehicle-licence-plate-form/vehicle-licence-plate-form.component'
+					).then((c) => c.VehicleLicencePlateFormComponent),
+			},
+			{
+				path: 'brand',
+				loadComponent: () =>
+					import(
+						'@features/client/components/vehicle-brand/vehicle-brand.component'
+					).then((c) => c.VehicleBrandComponent),
+			},
+			{
+				path: 'model',
+				loadComponent: () =>
+					import(
+						'@features/client/components/vehicle-model/vehicle-model.component'
+					).then((c) => c.VehicleModelComponent),
+			},
+			{
+				path: 'type',
+				loadComponent: () =>
+					import(
+						'@features/client/components/vehicle-type/vehicle-type.component'
+					).then((c) => c.VehicleTypeComponent),
+			},
+			{
+				path: 'color',
+				loadComponent: () =>
+					import(
+						'@features/client/components/vehicle-color/vehicle-color.component'
+					).then((c) => c.VehicleColorComponent),
+			},
+			{
+				path: 'registration-year',
+				loadComponent: () =>
+					import(
+						'@features/client/components/vehicle-registration-year/vehicle-registration-year.component'
+					).then((c) => c.VehicleRegistrationYearComponent),
+			},
+		],
+	},
 ];
 
 export const featuresRoutes: Routes = [
@@ -81,6 +137,7 @@ export const featuresRoutes: Routes = [
 		children: clientRoutes,
 		canActivate: [authenticationGuard],
 	},
+	// TODO: this error routes should be in their own routes file
 	{
 		path: 'unauthorized',
 		loadComponent: () =>
