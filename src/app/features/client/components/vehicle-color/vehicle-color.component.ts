@@ -10,6 +10,8 @@ import {
 	Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { VehiclePageActions } from '@states/vehicle/actions/vehicle.page.actions';
 
 @Component({
 	selector: 'tamount-vehicle-color',
@@ -23,7 +25,10 @@ export class VehicleColorComponent implements OnInit {
 	colorMessage!: string;
 	loading!: boolean;
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit(): void {
 		this.colorForm = new FormGroup<{ color: FormControl }>({
@@ -40,7 +45,8 @@ export class VehicleColorComponent implements OnInit {
 			this.colorForm.valid &&
 			this.colorForm.status === 'VALID'
 		) {
-			// TODO: add model to the state
+			const vehicleColor = this.colorForm.controls['color'].value;
+			this.store.dispatch(VehiclePageActions.enterVehicleColor({ vehicleColor }));
 			this.router.navigateByUrl('profile/vehicle/add/registration-year');
 		} else {
 			const typeErrors: ValidationErrors | null =

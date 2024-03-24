@@ -10,6 +10,8 @@ import {
 	Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { VehiclePageActions } from '@states/vehicle/actions/vehicle.page.actions';
 
 @Component({
 	selector: 'tamount-vehicle-brand',
@@ -23,7 +25,10 @@ export class VehicleBrandComponent implements OnInit {
 	brandMessage!: string;
 	loading!: boolean;
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit(): void {
 		this.brandForm = new FormGroup<{ brand: FormControl }>({
@@ -40,7 +45,8 @@ export class VehicleBrandComponent implements OnInit {
 			this.brandForm.valid &&
 			this.brandForm.status === 'VALID'
 		) {
-			// TODO: add brand to the state
+			const vehicleBrand = this.brandForm.controls['brand'].value;
+			this.store.dispatch(VehiclePageActions.enterVehicleBrand({ vehicleBrand }));
 			this.router.navigateByUrl('profile/vehicle/add/model');
 		} else {
 			const brandErrors: ValidationErrors | null =

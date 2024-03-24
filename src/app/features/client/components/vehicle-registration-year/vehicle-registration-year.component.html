@@ -8,7 +8,7 @@
                 <div class="form-field">
                     <div class="flex flex-col gap-2">
                         <label for="year">Vehicle Registration Year</label>
-                        <p-inputNumber id="year" formControlName="year" placeholder="Year" class="py-3 px-2 border" aria-describedby="username-help" [required]="true"/>
+                        <input pInputText type="number" id="year" min="2000" max="2030" minlength="4" maxlength="4" formControlName="year" placeholder="Year" class="py-3 px-2 border" aria-describedby="username-help" required/>
                         <small id="username-error" class="text-xs text-red-600">{{registrationYearMessage}}</small>
                     </div>
                 </div>

@@ -10,6 +10,8 @@ import {
 	Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { VehiclePageActions } from '@states/vehicle/actions/vehicle.page.actions';
 
 @Component({
 	selector: 'tamount-vehicle-model',
@@ -23,7 +25,10 @@ export class VehicleModelComponent implements OnInit {
 	modelMessage!: string;
 	loading!: boolean;
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit(): void {
 		this.modelForm = new FormGroup<{ model: FormControl }>({
@@ -40,7 +45,8 @@ export class VehicleModelComponent implements OnInit {
 			this.modelForm.valid &&
 			this.modelForm.status === 'VALID'
 		) {
-			// TODO: add model to the state
+			const vehicleModel = this.modelForm.controls['model'].value;
+			this.store.dispatch(VehiclePageActions.enterVehicleModel({ vehicleModel }));
 			this.router.navigateByUrl('profile/vehicle/add/type');
 		} else {
 			const modelErrors: ValidationErrors | null =

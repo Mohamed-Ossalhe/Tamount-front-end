@@ -11,6 +11,8 @@ import {
 } from '@angular/forms';
 
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { VehiclePageActions } from '@states/vehicle/actions/vehicle.page.actions';
 
 @Component({
 	selector: 'tamount-vehicle-licence-plate-form',
@@ -24,7 +26,10 @@ export class VehicleLicencePlateFormComponent implements OnInit {
 	licencePlateMessage!: string;
 	loading!: boolean;
 
-	constructor(private router: Router) {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit(): void {
 		this.licencePlateForm = new FormGroup<{ licencePlate: FormControl }>({
@@ -41,7 +46,11 @@ export class VehicleLicencePlateFormComponent implements OnInit {
 			this.licencePlateForm.valid &&
 			this.licencePlateForm.status === 'VALID'
 		) {
-			// TODO: add plate to the state
+			const vehicleLicencePlate =
+				this.licencePlateForm.controls['licencePlate'].value;
+			this.store.dispatch(
+				VehiclePageActions.enterVehicleLicencePlate({ vehicleLicencePlate })
+			);
 			this.router.navigateByUrl('profile/vehicle/add/brand');
 		} else {
 			const licenceErrors: ValidationErrors | null =
@@ -55,6 +64,4 @@ export class VehicleLicencePlateFormComponent implements OnInit {
 			}
 		}
 	}
-
-	continueWithoutPlate() {}
 }

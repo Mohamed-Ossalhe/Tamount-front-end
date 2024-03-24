@@ -16,6 +16,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as AuthenticationEffects from '@states/authentication/authentication.effects';
 import * as ProfileEffects from '@states/profile/profile.effects';
+import * as VehicleEffects from '@states/vehicle/vehicle.effects';
 import {
 	authenticationFeatureKey,
 	authenticationReducer,
@@ -25,6 +26,7 @@ import { metaReducers } from '@states/authentication/rehydrate.reducer';
 import { profileFeature } from '@states/profile/profile.reducer';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authorizationInterceptor } from '@interceptors/authorization-interceptor/authorization.interceptor';
+import { vehicleFeature } from '@states/vehicle/vehicle.reducer';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -36,11 +38,12 @@ export const appConfig: ApplicationConfig = {
 		),
 		provideRouter(routes),
 		provideStore(),
-		provideEffects(AuthenticationEffects, ProfileEffects),
+		provideEffects(AuthenticationEffects, ProfileEffects, VehicleEffects),
 		provideState(authenticationFeatureKey, authenticationReducer, {
 			metaReducers: metaReducers,
 		}),
 		provideState(registrationFeature),
+		provideState(vehicleFeature),
 		provideState(profileFeature),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideAnimationsAsync('noop'),

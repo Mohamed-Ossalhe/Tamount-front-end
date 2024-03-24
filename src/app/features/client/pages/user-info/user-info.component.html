@@ -7,15 +7,15 @@
                         <div class="card-wrapper flex items-center justify-between w-full">
                             <div class="user-general-info text-left">
                                 <div class="user-name">
-                                    <h1 class="text-tamount-primary text-3xl font-medium">{{ profile().firstName }}</h1>
+                                    <h1 class="text-tamount-primary text-3xl font-medium">{{ profile()?.firstName }}</h1>
                                 </div>
                                 <div class="user-status">
                                     <p class="text-slate-500 font-medium capitalize">newcomer</p>
                                 </div>
                             </div>
                             <div class="user-picture">
-                                @if (profile().hasPicture && profile().picture != undefined) {
-                                    <p-avatar [image]="profile().picture" styleClass="mr-2 cursor-pointer" shape="circle" size="xlarge"></p-avatar>
+                                @if (profile()?.hasPicture && profile()?.picture != undefined) {
+                                    <p-avatar [image]="profile()?.picture" styleClass="mr-2 cursor-pointer" shape="circle" size="xlarge"></p-avatar>
                                 } @else {
                                     <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="xlarge"></p-avatar>
                                 }
@@ -28,30 +28,20 @@
                     <div class="section-header">
                         <h1 class="my-5 text-xl text-tamount-primary font-semibold">Vehicles</h1>
                         <div class="vehicles-wrapper">
-                            <div class="vehicle">
-                                <p-button styleClass="w-full p-2" severity="secondary">
-                                    <div class="card-wrapper flex flex-col items-start justify-between w-full">
-                                        <div class="vehicle-name">
-                                            <p class="uppercase text-tamount-primary font-medium">ford focus</p>
+                            @for (car of cars(); track $index) {
+                                <div class="vehicle">
+                                    <p-button styleClass="w-full p-2" severity="secondary">
+                                        <div class="card-wrapper flex flex-col items-start justify-between w-full">
+                                            <div class="vehicle-name">
+                                                <p class="uppercase text-tamount-primary font-medium">{{ car.model }}</p>
+                                            </div>
+                                            <div class="vehicle-color">
+                                                <p class="capitalize text-slate-500">{{ car.color }}</p>
+                                            </div>
                                         </div>
-                                        <div class="vehicle-color">
-                                            <p class="capitalize text-slate-500">grey</p>
-                                        </div>
-                                    </div>
-                                </p-button>
-                            </div>
-                            <div class="vehicle">
-                                <p-button styleClass="w-full p-2" severity="secondary">
-                                    <div class="card-wrapper flex flex-col items-start justify-between w-full">
-                                        <div class="vehicle-name">
-                                            <p class="uppercase text-tamount-primary font-medium">audi a6</p>
-                                        </div>
-                                        <div class="vehicle-color">
-                                            <p class="capitalize text-slate-500">dark blue</p>
-                                        </div>
-                                    </div>
-                                </p-button>
-                            </div>
+                                    </p-button>
+                                </div>
+                            }
                         </div>
                         <div class="add-new-vehicle">
                             <p-button styleClass="w-full p-2 py-4" severity="secondary" routerLink="../vehicle/add">
