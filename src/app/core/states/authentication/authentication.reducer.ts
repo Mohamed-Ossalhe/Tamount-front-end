@@ -21,13 +21,14 @@ export const authenticationFeature = createFeature({
 		on(
 			AuthenticationPageActions.authenticate,
 			AuthenticationPageActions.register,
+			AuthenticationPageActions.logout,
 			(state: AuthenticationState): AuthenticationState => ({
 				...state,
 				loading: true,
 			})
 		),
 		on(
-			AuthenticationPageActions.logout,
+			AuthenticationApiActions.logoutSuccess,
 			(): AuthenticationState => ({
 				...initialState,
 			})

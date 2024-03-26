@@ -1,0 +1,21 @@
+<div class="ride-form">
+    <div class="ride-form-container">
+        <div class="ride-form-wrapper flex flex-col items-center justify-center my-10">
+            <div class="login-page-heading flex items-center justify-center my-5">
+                <h1 class="text-3xl font-bold">Enable Instant Booking for your passengers</h1>
+            </div>
+            <form class="w-full space-y-5">
+                <div class="form-field">
+                    @for (option of options; track $index) {
+                        <div class="form-field">
+                            <div class="flex flex-col gap-2">
+                                <p-button styleClass="py-2 w-full capitalize"  [id]="option.value" [disabled]="loading" [label]="option.label" loadingIcon="pi pi-spinner"  severity="secondary" [loading]="loading" (click)="chooseOption($event)"></p-button>
+                            </div>
+                        </div>
+                    }
+                    <small id="username-error" class="text-xs text-red-600">{{message}}</small>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

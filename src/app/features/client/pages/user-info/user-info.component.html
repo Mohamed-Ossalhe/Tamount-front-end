@@ -1,7 +1,7 @@
 <div class="user-info-page w-full">
-    <div class="user-info-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
+    <div class="user-info-container container w-full sm:max-w-7xl sm:px-8 mx-auto">
         <div class="user-info-wrapper flex items-center justify-center">
-            <div class="user-info w-1/2">
+            <div class="user-info w-full sm:w-1/2">
                 <div class="user-profile-card w-full">
                     <p-button styleClass="w-full p-5" severity="secondary">
                         <div class="card-wrapper flex items-center justify-between w-full">
@@ -22,6 +22,60 @@
                             </div>
                         </div>
                     </p-button>
+                    <div class="ride-driver-preferences">
+                        <ul class="flex flex-col items-left justify-center gap-4">
+                            @if (profile()?.preferences) {
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (profile()?.preferences?.smoking === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>I’m fine with smoking</p>
+                                    } @else if (profile()?.preferences?.smoking === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>Cigarette breaks outside the car are ok</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>No smoking, please</p>
+                                    }
+                                </li>
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (profile()?.preferences?.music === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>It’s all about the playlist!</p>
+                                    } @else if (profile()?.preferences?.music === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>I’ll jam depending on the mood</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>Silence is golden</p>
+                                    }
+                                </li>
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (profile()?.preferences?.dialog === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>I’m a chatterbox!</p>
+                                    } @else if (profile()?.preferences?.dialog === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>I’m chatty when I feel comfortable</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>I'm the quiet type</p>
+                                    }
+                                </li>
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (profile()?.preferences?.pets === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>I love pets!</p>
+                                    } @else if (profile()?.preferences?.pets === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>I’ll travel with pets depending on the animal</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>I’d prefer not to travel with pets</p>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
                 <hr class="w-full">
                 <div class="user-vehicles">

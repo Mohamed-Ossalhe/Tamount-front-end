@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+	Component,
+	EventEmitter,
+	Input,
+	OnInit,
+	Output,
+	Signal,
+} from '@angular/core';
 import {
 	AutoCompleteCompleteEvent,
 	AutoCompleteModule,
@@ -13,11 +20,18 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { formatDate } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
+import { LocationModel } from '@models/LocationModel';
+import { selectLocationCollection } from '@states/location/location.reducer';
+import { Store } from '@ngrx/store';
+import { LocationPageActions } from '@states/location/actions/location.page.actions';
+import { RidePageActions } from '@states/ride/actions/ride.page.actions';
+import { SearchRequest } from '@interfaces/requests/search-request';
 
-type Country = {
-	name: string;
-	code: string;
+type SearchFilterType = {
+	departure: LocationModel;
+	arrival: LocationModel;
+	date: string;
 };
 
 @Component({
@@ -31,37 +45,30 @@ type Country = {
 		InputNumberModule,
 		ReactiveFormsModule,
 	],
+	providers: [DatePipe],
 	templateUrl: './search-filter.component.html',
 	styleUrl: './search-filter.component.scss',
 })
 export class SearchFilterComponent implements OnInit {
-	countries!: Country[];
+	@Input() filters!: SearchFilterType;
+	@Output() filtersChange: EventEmitter<SearchFilterType> =
+		new EventEmitter<SearchFilterType>();
 
-	filteredCountries!: Country[];
+	countries: Signal<LocationModel[]> = this.store.selectSignal(
+		selectLocationCollection
+	);
+
+	filteredCountries!: LocationModel[];
 
 	searchFormGroup!: FormGroup;
 
-	constructor() {}
+	constructor(
+		private store: Store,
+		private datePipe: DatePipe
+	) {}
 
 	ngOnInit() {
-		this.countries = [
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-		];
+		this.store.dispatch(LocationPageActions.loadLocations());
 		this.searchFormGroup = new FormGroup({
 			departure: new FormControl({ value: '', disabled: false }, [
 				Validators.required,
@@ -82,12 +89,12 @@ export class SearchFilterComponent implements OnInit {
 	}
 
 	filterCountry(event: AutoCompleteCompleteEvent) {
-		const filtered: Country[] = [];
+		const filtered: LocationModel[] = [];
 		const query = event.query;
 
-		for (let i = 0; i < (this.countries as Country[]).length; i++) {
-			const country = (this.countries as Country[])[i];
-			if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+		for (const element of this.countries()) {
+			const country = element;
+			if (country.city.name.toLowerCase().startsWith(query.toLowerCase())) {
 				filtered.push(country);
 			}
 		}
@@ -96,6 +103,20 @@ export class SearchFilterComponent implements OnInit {
 	}
 
 	submitSearchForm() {
-		console.log(this.searchFormGroup.value);
+		const request: SearchRequest = {
+			departure: this.searchFormGroup.controls['departure'].value,
+			arrival: this.searchFormGroup.controls['destination'].value,
+			departureTime: this.searchFormGroup.controls['date'].value,
+			seats: this.searchFormGroup.controls['passengersCount'].value,
+		};
+		this.filtersChange.emit({
+			departure: this.searchFormGroup.controls['departure'].value,
+			arrival: this.searchFormGroup.controls['destination'].value,
+			date: this.datePipe.transform(
+				this.searchFormGroup.controls['date'].value,
+				'EEE, dd MMMM'
+			) as string,
+		});
+		this.store.dispatch(RidePageActions.searchRides({ request }));
 	}
 }

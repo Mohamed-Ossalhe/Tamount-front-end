@@ -17,6 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import * as AuthenticationEffects from '@states/authentication/authentication.effects';
 import * as ProfileEffects from '@states/profile/profile.effects';
 import * as VehicleEffects from '@states/vehicle/vehicle.effects';
+import * as LocationEffects from '@states/location/location.effects';
+import * as RideEffects from '@states/ride/ride.effects';
+import * as BookingEffects from '@states/booking/booking.effects';
 import {
 	authenticationFeatureKey,
 	authenticationReducer,
@@ -27,6 +30,10 @@ import { profileFeature } from '@states/profile/profile.reducer';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authorizationInterceptor } from '@interceptors/authorization-interceptor/authorization.interceptor';
 import { vehicleFeature } from '@states/vehicle/vehicle.reducer';
+import { rideFeature } from '@states/ride/ride.reducer';
+import { locationFeature } from '@states/location/location.reducer';
+import { bookingFeature } from '@states/booking/booking.reducer';
+import { errorInterceptor } from '@interceptors/error-interceptor/error.interceptor';
 
 export const appConfig: ApplicationConfig = {
 	providers: [
@@ -38,15 +45,27 @@ export const appConfig: ApplicationConfig = {
 		),
 		provideRouter(routes),
 		provideStore(),
-		provideEffects(AuthenticationEffects, ProfileEffects, VehicleEffects),
+		provideEffects(
+			AuthenticationEffects,
+			ProfileEffects,
+			VehicleEffects,
+			LocationEffects,
+			RideEffects,
+			BookingEffects
+		),
 		provideState(authenticationFeatureKey, authenticationReducer, {
 			metaReducers: metaReducers,
 		}),
 		provideState(registrationFeature),
 		provideState(vehicleFeature),
+		provideState(rideFeature),
+		provideState(bookingFeature),
+		provideState(locationFeature),
 		provideState(profileFeature),
 		provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
 		provideAnimationsAsync('noop'),
-		provideHttpClient(withInterceptors([authorizationInterceptor])),
+		provideHttpClient(
+			withInterceptors([authorizationInterceptor, errorInterceptor])
+		),
 	],
 };

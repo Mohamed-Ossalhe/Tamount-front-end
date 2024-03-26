@@ -2,7 +2,7 @@
     <div class="ride-details-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
         <div class="ride-details-wrapper w-full sm:w-1/2 mx-auto">
             <div class="searched-date text-center">
-                <h1 class="text-4xl font-bold">Fri, 22 March</h1>
+                <h1 class="text-4xl font-bold">{{ date }}</h1>
             </div>
             <p-divider />
             <div class="ride-trip-points drop-shadow-md">
@@ -23,7 +23,7 @@
             <div class="ride-price">
                 <div class="ride-price-wrapper flex items-center justify-between">
                     <p class="ride-price-text font-medium">Total price for 1 passenger</p>
-                    <p class="ride-price-amount text-xl font-bold">MAD 17.89</p>
+                    <p class="ride-price-amount text-xl font-bold">MAD {{ ride().price }}</p>
                 </div>
             </div>
             <p-divider />
@@ -34,71 +34,127 @@
                             <div class="card-wrapper flex items-center justify-between w-full">
                                 <div class="user-general-info text-left">
                                     <div class="user-name">
-                                        <h1 class="text-tamount-primary text-lg font-medium">hello</h1>
+                                        <h1 class="text-tamount-primary text-lg font-medium">{{ ride().user.firstName }}</h1>
                                     </div>
                                     <div class="user-ratings">
                                         <p class="text-slate-500 flex items-center justify-center gap-2 text-sm font-medium capitalize"><tamount-icon icon="star-fill" styleClass="text-sm" /> 5/5 - 2 ratings</p>
                                     </div>
                                 </div>
                                 <div class="user-picture">
-                                    <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large"></p-avatar>
-                                    <!-- TODO: add user picture here if exist else show this avatar -->
+                                    @if (ride().user.hasPicture && ride().user.picture != undefined) {
+                                        <p-avatar [image]="ride().user.picture" styleClass="mr-2 cursor-pointer" shape="circle" size="large"></p-avatar>
+                                    } @else {
+                                        <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large"></p-avatar>
+                                    }
                                 </div>
                             </div>
                         </p-button>
                     </div>
                     <p-divider />
                     <div class="ride-driver-statuses w-full text-left">
-                        <p class="verification-status flex items-center justify-left gap-4">
-                            <tamount-icon icon="verified" styleClass="text-lg text-tamount-primary" />
-                            <span class="text-slate-600">Verified Profile</span>
-                        </p>
+                        @if (ride().user.verificationStatus === VerificationStatus.VERIFIED) {
+                            <p class="verification-status flex items-center justify-left gap-4">
+                                <tamount-icon icon="verified" styleClass="text-lg text-tamount-primary" />
+                                <span class="text-slate-600">Verified Profile</span>
+                            </p>
+                        }
                         <!-- add other statuses here -->
                     </div>
                     <hr class="my-6">
                     <div class="ride-description">
-                        <p class="text-slate-600">I'll pick you up from the Premier Inn Hotel on Regent Street no later than 7:30am</p>
+<!--                        <p class="text-slate-600">I'll pick you up from the Premier Inn Hotel on Regent Street no later than 7:30am</p>-->
                     </div>
                     <p-divider />
                     <div class="ride-driver-contact">
                         <p-button styleClass="w-full py-5" severity="secondary">
                             <div class="card-wrapper flex items-center justify-left gap-4 w-full">
                                 <tamount-icon icon="comments" styleClass="text-xl text-tamount-primary" />
-                                <p class="text-tamount-primary">Contact Driver name</p>
+                                <p class="text-tamount-primary">Contact {{ ride().user.firstName }}</p>
                             </div>
                         </p-button>
                     </div>
                     <hr class="my-6">
                     <div class="ride-booking-type">
-                        <div class="ride-booking-wrapper flex items-center gap-4 text-slate-600">
-                            <tamount-icon icon="clock" styleClass="text-xl" />
-                            <p>Your booking won't be confirmed until the driver approves your request</p>
-                        </div>
+                        @if (ride().approvalMode === ApprovalMode.INSTANT) {
+                            <div class="ride-booking-wrapper flex items-center gap-4 text-slate-600">
+                                <tamount-icon icon="bolt" styleClass="text-xl" />
+                                <p>Your booking will be confirmed instantly</p>
+                            </div>
+                        } @else {
+                            <div class="ride-booking-wrapper flex items-center gap-4 text-slate-600">
+                                <tamount-icon icon="clock" styleClass="text-xl" />
+                                <p>Your booking won't be confirmed until the driver approves your request</p>
+                            </div>
+                        }
                     </div>
                     <hr class="my-6">
                     <div class="ride-driver-preferences">
                         <ul class="flex flex-col items-left justify-center gap-4">
+                            @if (ride().user.preferences) {
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (ride().user.preferences?.smoking === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>I’m fine with smoking</p>
+                                    } @else if (ride().user.preferences?.smoking === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>Cigarette breaks outside the car are ok</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>No smoking, please</p>
+                                    }
+                                </li>
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (ride().user.preferences?.music === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>It’s all about the playlist!</p>
+                                    } @else if (ride().user.preferences?.music === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>I’ll jam depending on the mood</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>Silence is golden</p>
+                                    }
+                                </li>
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (ride().user.preferences?.dialog === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>I’m a chatterbox!</p>
+                                    } @else if (ride().user.preferences?.dialog === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>I’m chatty when I feel comfortable</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>I'm the quiet type</p>
+                                    }
+                                </li>
+                                <li class="flex items-center gap-4 text-slate-600">
+                                    @if (ride().user.preferences?.pets === PreferenceStatus.YES) {
+                                        <tamount-icon icon="check-circle" styleClass="text-xl" />
+                                        <p>I love pets!</p>
+                                    } @else if (ride().user.preferences?.pets === PreferenceStatus.MAYBE) {
+                                        <tamount-icon icon="minus-circle" styleClass="text-xl" />
+                                        <p>I’ll travel with pets depending on the animal</p>
+                                    } @else {
+                                        <tamount-icon icon="times-circle" styleClass="text-xl" />
+                                        <p>I’d prefer not to travel with pets</p>
+                                    }
+                                </li>
+                            }
                             <li class="flex items-center gap-4 text-slate-600">
-                                <tamount-icon icon="times-circle" styleClass="text-xl" />
-                                <p>No smoking, please</p>
-                            </li>
-                            <li class="flex items-center gap-4 text-slate-600">
-                                <tamount-icon icon="times-circle" styleClass="text-xl" />
-                                <p>I’d prefer not to travel with pets</p>
-                            </li>
-                            <li class="flex items-center gap-4 text-slate-600">
-                                <tamount-icon icon="users" styleClass="text-xl" />
-                                <p>Max, 2 in the back</p>
+                                @if (ride().isComfort) {
+                                    <tamount-icon icon="users" styleClass="text-xl" />
+                                    <p>Max. 2 in the back</p>
+                                }
                             </li>
                         </ul>
                     </div>
                     <p-divider />
                     <div class="ride-car-information text-slate-600">
                         <div class="car-name">
-                            <p class="uppercase font-medium">dacia logan</p>
+                            <p class="uppercase font-medium">{{ ride().vehicle.model }}</p>
                         </div>
                         <div class="car-color">
-                            <p class="capitalize">gray</p>
+                            <p class="capitalize">{{ ride().vehicle.color }}</p>
                         </div>
                     </div>
                     <hr class="my-6 border-4 border-slate-200 rounded">
@@ -117,12 +173,21 @@
     <div class="request-booking-button sticky bottom-0 left-0 bg-white border-t border-slate-300">
         <div class="request-booking-container container w-full sm:max-w-7xl px-4 sm:px-8 mx-auto">
             <div class="request-booking-wrapper flex items-center justify-center py-5">
-                <p-button styleClass="w-full py-3 px-6 bg-tamount-primary rounded-full" severity="info">
-                    <div class="card-wrapper flex items-center justify-left gap-4 w-full text-white">
-                        <tamount-icon icon="calendar" styleClass="text-xl" />
-                        <p>Request to book</p>
-                    </div>
-                </p-button>
+                @if (ride().approvalMode === ApprovalMode.INSTANT) {
+                    <p-button routerLink="/booking-details" styleClass="w-full py-3 px-6 bg-tamount-primary rounded-full" severity="info">
+                        <div class="card-wrapper flex items-center justify-left gap-4 w-full text-white">
+                            <tamount-icon icon="bolt" styleClass="text-xl" />
+                            <p>book</p>
+                        </div>
+                    </p-button>
+                } @else {
+                    <p-button routerLink="/booking-details" styleClass="w-full py-3 px-6 bg-tamount-primary rounded-full" severity="info">
+                        <div class="card-wrapper flex items-center justify-left gap-4 w-full text-white">
+                            <tamount-icon icon="calendar" styleClass="text-xl" />
+                            <p>Request to book</p>
+                        </div>
+                    </p-button>
+                }
             </div>
         </div>
     </div>

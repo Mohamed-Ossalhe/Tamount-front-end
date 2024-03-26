@@ -108,4 +108,11 @@ export const authRoutes: Routes = [
 			},
 		],
 	},
+	{
+		path: 'logout',
+		loadComponent: () =>
+			import('@features/auth/pages/logout/logout.component').then(
+				(c) => c.LogoutComponent
+			),
+	},
 ];

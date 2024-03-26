@@ -2,11 +2,11 @@
     <form class="grid grid-cols-1 gap-4" (submit)="submitSearchForm()" [formGroup]="searchFormGroup">
         <div class="departure-field flex flex-col gap-2">
             <label for="departure">Departure</label>
-            <p-autoComplete id="departure" formControlName="departure"  placeholder="Leaving from" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" field="name"></p-autoComplete>
+            <p-autoComplete id="departure" formControlName="departure"  placeholder="Leaving from" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" field="city.name"></p-autoComplete>
         </div>
         <div class="destination-field flex flex-col gap-2">
             <label for="destination">Destination</label>
-            <p-autoComplete id="destination" formControlName="destination" placeholder="Going to" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" field="name"></p-autoComplete>
+            <p-autoComplete id="destination" formControlName="destination" placeholder="Going to" [suggestions]="filteredCountries" (completeMethod)="filterCountry($event)" inputStyleClass="w-full px-2" styleClass="h-10 w-full border rounded" field="city.name"></p-autoComplete>
         </div>
         <div class="passenger-count-field flex flex-col gap-2">
             <label for="passengers">Passengers</label>

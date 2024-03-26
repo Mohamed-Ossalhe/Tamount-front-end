@@ -14,10 +14,13 @@
             <hr class="w-full sm:w-1/2 my-6 border-4 border-slate-200 rounded">
             <div class="payment-methods-types w-full sm:w-1/2 flex flex-col justify-center gap-4">
                 @for (method of paymentMethods; track $index) {
-                    <p-button [id]="method.value" styleClass="w-full py-5 px-4" severity="secondary" (click)="selectMethod($event)">
+                    <p-button [id]="method.value" styleClass="w-full py-5 px-4" severity="secondary" [disabled]="method.status === 'inactive'" (click)="selectMethod($event)">
                         <div class="card-wrapper flex items-center justify-left gap-5 w-full">
                             <tamount-icon [icon]="method.icon" styleClass="text-xl text-tamount-primary" />
                             <p class="text-tamount-primary font-medium">{{ method.label }}</p>
+                        </div>
+                        <div class="status text-xs py-0.5 px-1.5 bg-tamount-primary text-white rounded-full">
+                            {{ method.status === "active" ? method.status : "soon" }}
                         </div>
                     </p-button>
                 }
@@ -31,7 +34,7 @@
                 <p-button styleClass="w-full py-3 px-6 bg-tamount-primary rounded-full" severity="info" (click)="submitPayment()">
                     <div class="card-wrapper flex items-center justify-left gap-4 w-full text-white">
                         <tamount-icon icon="lock" styleClass="text-xl" />
-                        <p>Pay MAD 17.89</p>
+                        <p>Pay MAD 20</p>
                     </div>
                 </p-button>
             </div>

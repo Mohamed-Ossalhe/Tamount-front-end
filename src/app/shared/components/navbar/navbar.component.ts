@@ -45,6 +45,16 @@ export class NavbarComponent implements OnInit {
 				routerLink: 'profile',
 			},
 			{
+				label: 'Rides',
+				icon: 'pi pi-car',
+				routerLink: 'rides',
+			},
+			{
+				label: 'Bookings',
+				icon: 'pi pi-book',
+				routerLink: 'my-bookings',
+			},
+			{
 				label: 'Log out',
 				icon: 'pi pi-times-circle',
 				routerLink: 'authentication/logout',

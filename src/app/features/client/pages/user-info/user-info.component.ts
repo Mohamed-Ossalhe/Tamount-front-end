@@ -9,6 +9,7 @@ import { RouterLink } from '@angular/router';
 import { User } from '@models/user';
 import { selectCarCollection } from '@states/vehicle/vehicle.reducer';
 import { Car } from '@models/car';
+import { PreferenceStatus } from '@enums/preference-status';
 
 @Component({
 	selector: 'tamount-user-info',
@@ -23,4 +24,6 @@ export class UserInfoComponent {
 	) as Signal<User>;
 	cars: Signal<Car[]> = this.store.selectSignal(selectCarCollection);
 	constructor(private store: Store) {}
+
+	protected readonly PreferenceStatus = PreferenceStatus;
 }

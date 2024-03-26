@@ -10,6 +10,11 @@
                                     <p class="font-medium">{{ event.city }}</p>
                                 </div>
                             </ng-template>
+                            <ng-template pTemplate="marker" let-event>
+                                <span class="custom-marker shadow-2" [style.background-color]="event.color">
+                                    <i [class]="event.icon"></i>
+                                </span>
+                            </ng-template>
                             <ng-template pTemplate="opposite" let-event>
                                 <p class="font-medium">{{ event.time }}</p>
                             </ng-template>
@@ -17,18 +22,21 @@
                     </div>
                 </div>
                 <div class="ride-price">
-                    <p class="ride-price-amount text-sm text-tamount-primary font-bold">MAD 17.89</p>
+                    <p class="ride-price-amount text-sm text-tamount-primary font-bold">MAD {{ ride().price }}</p>
                 </div>
             </div>
             <div class="ride-card-bottom">
                 <div class="user-profile-card w-full">
                         <div class="card-wrapper flex items-center justify-between w-full">
                             <div class="user-picture flex items-center gap-4">
-                                <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large"></p-avatar>
-                                <!-- TODO: add user picture here if exist else show this avatar -->
+                                @if (ride().user.hasPicture && ride().user.picture != undefined) {
+                                    <p-avatar [image]="ride().user.picture" styleClass="mr-2 cursor-pointer" shape="circle" size="large"></p-avatar>
+                                } @else {
+                                    <p-avatar icon="pi pi-user" styleClass="mr-2 cursor-pointer" shape="circle" size="large"></p-avatar>
+                                }
                                 <div class="user-general-info text-left">
                                     <div class="user-name">
-                                        <h1 class="text-tamount-primary font-medium">hello</h1>
+                                        <h1 class="text-tamount-primary font-medium">{{ ride().user.firstName }}</h1>
                                     </div>
                                     <div class="user-ratings">
                                         <p class="text-slate-500 flex items-center gap-2 text-sm font-medium capitalize"><tamount-icon icon="star-fill" styleClass="text-sm" /> 5.0</p>

@@ -1,4 +1,5 @@
 import {
+	HttpErrorResponse,
 	HttpEvent,
 	HttpHandlerFn,
 	HttpInterceptorFn,
@@ -9,8 +10,9 @@ import { Store } from '@ngrx/store';
 import { AuthenticationState } from '@interfaces/authentication-state';
 import { selectUser } from '@states/authentication/authentication.reducer';
 import { AuthenticationResponse } from '@models/authentication-response';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { environment } from '@environments/environment.development';
+import { Router } from '@angular/router';
 
 export const authorizationInterceptor: HttpInterceptorFn = (
 	req: HttpRequest<unknown>,
@@ -21,6 +23,7 @@ export const authorizationInterceptor: HttpInterceptorFn = (
 		`${environment.API_URL}/auth/register`,
 	];
 	const store: Store<AuthenticationState> = inject(Store);
+	const router: Router = inject(Router);
 	const user: Signal<AuthenticationResponse> = store.selectSignal(
 		selectUser
 	) as Signal<AuthenticationResponse>;
@@ -30,6 +33,12 @@ export const authorizationInterceptor: HttpInterceptorFn = (
 	const newReq: HttpRequest<unknown> = req.clone({
 		headers: req.headers.set('Authorization', `Bearer ${user().access_token}`),
 	});
-	console.log(newReq);
-	return next(newReq);
+	return next(newReq).pipe(
+		catchError((error) => {
+			if (error instanceof HttpErrorResponse && error.status === 401) {
+				router.navigateByUrl('/unauthorized');
+			}
+			return throwError(() => new Error(error));
+		})
+	);
 };

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Signal } from '@angular/core';
 import {
 	AutoCompleteCompleteEvent,
 	AutoCompleteModule,
@@ -14,11 +14,12 @@ import {
 	Validators,
 } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
-
-type Country = {
-	name: string;
-	code: string;
-};
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { LocationModel } from '@models/LocationModel';
+import { selectLocationCollection } from '@states/location/location.reducer';
+import { LocationPageActions } from '@states/location/actions/location.page.actions';
+import { RidePageActions } from '@states/ride/actions/ride.page.actions';
 
 @Component({
 	selector: 'tamount-publish-ride-form',
@@ -36,33 +37,21 @@ type Country = {
 	styleUrl: './publish-ride-form.component.scss',
 })
 export class PublishRideFormComponent implements OnInit {
-	countries!: Country[];
+	countries: Signal<LocationModel[]> = this.store.selectSignal(
+		selectLocationCollection
+	);
 
-	filteredCountries!: Country[];
+	filteredCountries!: LocationModel[];
 
 	searchFormGroup!: FormGroup;
 
-	constructor() {}
+	constructor(
+		private router: Router,
+		private store: Store
+	) {}
 
 	ngOnInit() {
-		this.countries = [
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-			{
-				name: 'Afghanistan',
-				code: 'AF',
-			},
-		];
+		this.store.dispatch(LocationPageActions.loadLocations());
 		this.searchFormGroup = new FormGroup({
 			departure: new FormControl({ value: '', disabled: false }, [
 				Validators.required,
@@ -79,12 +68,12 @@ export class PublishRideFormComponent implements OnInit {
 	}
 
 	filterCountry(event: AutoCompleteCompleteEvent) {
-		const filtered: Country[] = [];
+		const filtered: LocationModel[] = [];
 		const query = event.query;
 
-		for (let i = 0; i < (this.countries as Country[]).length; i++) {
-			const country = (this.countries as Country[])[i];
-			if (country.name.toLowerCase().indexOf(query.toLowerCase()) == 0) {
+		for (const element of this.countries()) {
+			const country = element;
+			if (country.city.name.toLowerCase().startsWith(query.toLowerCase())) {
 				filtered.push(country);
 			}
 		}
@@ -93,6 +82,22 @@ export class PublishRideFormComponent implements OnInit {
 	}
 
 	submitSearchForm() {
-		console.log(this.searchFormGroup.value);
+		if (
+			this.searchFormGroup.dirty &&
+			this.searchFormGroup.valid &&
+			this.searchFormGroup.status === 'VALID'
+		) {
+			const departure = this.searchFormGroup.controls['departure'].value;
+			const arrival = this.searchFormGroup.controls['destination'].value;
+			const seats = this.searchFormGroup.controls['passengersCount'].value;
+
+			this.store.dispatch(RidePageActions.enterDeparture({ departure }));
+			this.store.dispatch(RidePageActions.enterArrival({ arrival }));
+			this.store.dispatch(RidePageActions.enterSeats({ seats }));
+
+			this.router.navigateByUrl('profile/ride/add');
+		} else {
+			this.router.navigateByUrl('profile/ride/add');
+		}
 	}
 }
