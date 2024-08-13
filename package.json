@@ -27,6 +27,7 @@
     "@ngrx/store": "^17.1.1",
     "@ngrx/store-devtools": "^17.1.1",
     "@stripe/stripe-js": "^3.0.10",
+    "axios": "^1.7.3",
     "chart.js": "^4.4.2",
     "primeicons": "^6.0.1",
     "primeng": "^17.10.0",
